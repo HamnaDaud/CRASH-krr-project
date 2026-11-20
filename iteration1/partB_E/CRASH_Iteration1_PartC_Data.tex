@@ -1,0 +1,151 @@
+\documentclass[10.5pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,longtable,booktabs,array,enumitem}
+\usepackage[hidelinks]{hyperref}
+\renewcommand{\arraystretch}{1.2}\setlength{\tabcolsep}{4pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\cls}[1]{\textsf{#1}}
+\title{CRASH: Collision Risk Analysis through Semantic Hierarchies\\[4pt]\large AI-3001 Iteration 1 --- Part C: Data Cleaning, RDF Transformation and URI Design}
+\author{Team members: Ritaj, Hamna, Tahreem}\date{November 2026}
+\begin{document}\maketitle
+
+\section{Overview}
+The source is the UK Department for Transport Road Safety Open Data (STATS19), 2025, published under the Open Government Licence v3.0. It has three linked CSV files (collisions, vehicles, casualties) and a data guide (\texttt{.xlsx}) that maps every numeric code to a text label. There is no RDF version, so we build the knowledge graph ourselves.
+
+One Python script, \texttt{crash\_build\_abox.py} (pandas + rdflib), does the whole job: it loads the CSVs, cleans them, converts the rows to RDF that uses the classes and properties of \texttt{crash\_schema.ttl}, writes \texttt{crash\_data.ttl}, then re-reads that file and runs validation checks. It is reproducible: the same input always gives the same output.
+\begin{verbatim}
+python -I crash_build_abox.py <folder with CSVs and data guide> <output .ttl>
+\end{verbatim}
+
+\noindent\textbf{Result}: \texttt{crash\_data.ttl}, \textbf{30,865 triples} (the requirement is 500), for 1,115 collisions, 1,962 vehicles, 1,491 casualties, 510 LSOAs, 11 local authorities and 2 police forces.
+
+\section{Data cleaning}
+\begin{enumerate}[nosep]
+\item \textbf{Sample selection.} The national 2025 file has 101,525 collisions. We keep all collisions recorded by North Wales police (\texttt{police\_force} = 60) and Gwent police (61): \textbf{1,115 collisions}. Their vehicles and casualties are selected by \texttt{collision\_index}: 1,962 vehicles and 1,491 casualties. Using whole police areas (not a random sample) keeps the area hierarchy complete, so area counts are correct.
+\item \textbf{Column selection.} The collision file has 44 columns, the vehicle file 32 and the casualty file 24. We keep only the 13, 5 and 7 columns that the schema uses. Dropped: the \texttt{*\_historic} columns (we use the new 2024-format \texttt{junction\_detail} and \texttt{vehicle\_manoeuvre} instead), flag columns (\texttt{trunk\_road\_flag}, \texttt{escooter\_flag}), the adjusted-severity and injury-based columns, and personal or redacted fields (driver LSOA, IMD decile, make/model).
+\item \textbf{Whitespace and types.} All values are read as text and trimmed, so codes such as \texttt{01} or \texttt{-1} are not changed by type guessing.
+\item \textbf{Duplicates and keys.} The script checks that \texttt{collision\_index} is unique, that (\texttt{collision\_index}, \texttt{vehicle\_reference}) is unique for vehicles and (\texttt{collision\_index}, \texttt{casualty\_reference}) for casualties. No duplicates were found.
+\item \textbf{Referential integrity.} Every casualty must point to a vehicle that exists in the same collision (via \texttt{vehicle\_reference}). All 1,491 do.
+\item \textbf{Dates.} \texttt{date} is converted from \texttt{dd/mm/yyyy} to ISO \texttt{yyyy-mm-dd} and stored as \texttt{xsd:date}.
+\item \textbf{Codes to labels.} Coded values are replaced by the text label from the data guide (sheet \texttt{2024\_code\_list}), for example road surface \texttt{2} $\rightarrow$ ``Wet or damp''.
+\item \textbf{Missing and unknown values.} Code \texttt{-1} (``data missing or out of range'') and \texttt{99} or \texttt{9} (``unknown (self reported)'') become the label \textbf{``Unknown''} for text properties. Labels that only \emph{contain} the word unknown keep their meaning (``Darkness - lighting unknown'', ``Motorcycle - unknown cc''). For numeric properties (\texttt{speedLimit}, \texttt{driverAge}, \texttt{casualtyAgeBand}) a missing value is \emph{left out} rather than stored as $-1$, so averages and filters stay correct. In the sample this omits 216 driver ages and 29 casualty age bands; 4 text values became ``Unknown''.
+\item \textbf{No missing keys.} All 1,115 collisions have an LSOA code; each LSOA lies in exactly one local authority, and each local authority in exactly one police force.
+\end{enumerate}
+
+\section{Transformation: CSV to RDF}
+Each CSV row becomes one individual. Severity and road-user type become \emph{class membership}, so the OWL reasoner can infer the defined classes (\cls{KSICollision}, \cls{VRUCollision}). Other coded fields become text-valued data properties.
+
+\small
+\begin{longtable}{L{4.5cm} L{4.3cm} L{7.4cm}}
+\toprule \textbf{CSV column} & \textbf{RDF term} & \textbf{Rule}\\\midrule\endhead
+\multicolumn{3}{l}{\textit{Collision file $\rightarrow$ one \cls{Collision} individual per row}}\\
+\texttt{collision\_index} & \texttt{:collisionIndex} & string, also used in the IRI\\
+\texttt{collision\_severity} & \texttt{rdf:type} & 1 $\rightarrow$ \cls{FatalCollision}, 2 $\rightarrow$ \cls{SeriousCollision}, 3 $\rightarrow$ \cls{Collision}\\
+\texttt{date} & \texttt{:collisionDate} & \texttt{xsd:date}\\
+\texttt{speed\_limit} & \texttt{:speedLimit} & \texttt{xsd:integer} (mph); omitted if $-1$/99\\
+\texttt{first\_road\_class} & \texttt{:roadClass} & label, e.g.\ ``A'', ``B'', ``Motorway''\\
+\texttt{road\_type} & \texttt{:roadType} & label, e.g.\ ``Single carriageway'', ``Roundabout''\\
+\texttt{junction\_detail} (new) & \texttt{:junctionType} & label, e.g.\ ``T or staggered junction''\\
+\texttt{light\_conditions} & \texttt{:lightCondition} & label, e.g.\ ``Daylight'', ``Darkness - lights lit''\\
+\texttt{weather\_conditions} & \texttt{:weatherCondition} & label, e.g.\ ``Raining no high winds''\\
+\texttt{road\_surface\_conditions} & \texttt{:surfaceCondition} & label, e.g.\ ``Wet or damp'', ``Frost or ice''\\
+\texttt{lsoa\_of\_accident\_location} & \texttt{:occurredIn} & link to the \cls{LSOA} individual\\
+\midrule
+\multicolumn{3}{l}{\textit{Vehicle file $\rightarrow$ one \cls{Vehicle} individual per row}}\\
+\texttt{collision\_index}, \texttt{vehicle\_reference} & \texttt{:hasVehicle} (from the collision) & builds the vehicle IRI and the link\\
+\texttt{vehicle\_type} & \texttt{:vehicleType} & label, e.g.\ ``Car'', ``Pedal cycle''\\
+\texttt{vehicle\_manoeuvre} (new) & \texttt{:vehicleManoeuvre} & label, e.g.\ ``Going ahead'', ``Turning right''\\
+\texttt{age\_of\_driver} & \texttt{:driverAge} & \texttt{xsd:integer}; omitted if $-1$\\
+\midrule
+\multicolumn{3}{l}{\textit{Casualty file $\rightarrow$ one casualty individual per row}}\\
+\texttt{vehicle\_reference} & \texttt{:hasCasualty} (from the vehicle) & links the casualty to the vehicle it was in, or that hit them\\
+\texttt{casualty\_type} & \texttt{rdf:type} & 0 $\rightarrow$ \cls{Pedestrian}, 1 $\rightarrow$ \cls{Cyclist}, 2,3,4,5,23,97 $\rightarrow$ \cls{Motorcyclist}, others $\rightarrow$ \cls{Casualty}\\
+\texttt{casualty\_severity} & \texttt{:casualtySeverity} & ``Fatal'', ``Serious'' or ``Slight''\\
+\texttt{casualty\_class} & \texttt{:casualtyClass} & ``Driver or rider'', ``Passenger'' or ``Pedestrian''\\
+\texttt{age\_band\_of\_casualty} & \texttt{:casualtyAgeBand} & \texttt{xsd:integer} band code 1--11 (1--3 = 0--15 years); omitted if $-1$\\
+\midrule
+\multicolumn{3}{l}{\textit{Area hierarchy (built from distinct codes in the collision file)}}\\
+\texttt{lsoa\_of\_accident\_location} & \cls{LSOA}, \texttt{:areaCode} & one individual per distinct code; \texttt{:partOf} its local authority\\
+\texttt{local\_authority\_ons\_district} & \cls{LocalAuthority}, \texttt{:areaCode}, \texttt{:areaName} & name from the data guide, e.g.\ W06000022 $\rightarrow$ ``Newport''; \texttt{:partOf} its police force\\
+\texttt{police\_force} & \cls{PoliceForce}, \texttt{:areaCode}, \texttt{:areaName} & 60 ``North Wales'', 61 ``Gwent''\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+Only the most specific facts are stored. \cls{KSICollision}, \cls{VulnerableRoadUser}, \cls{VRUCollision}, \texttt{:involvesCasualty} and the transitive \texttt{LSOA partOf PoliceForce} links are left to the reasoner, and \cls{HighRiskArea} (LSOA with at least 3 KSI collisions) and \cls{ChildCasualty} are added later by SPARQL \texttt{INSERT}. They are not written into the data file.
+
+\paragraph{Example (one serious collision, abbreviated).}
+\begin{verbatim}
+res:Collision_202560C000676 a :SeriousCollision ;
+    :collisionIndex "202560C000676" ; :collisionDate "2025-01-02"^^xsd:date ;
+    :roadClass "A" ; :roadType "Single carriageway" ; :speedLimit 60 ;
+    :surfaceCondition "Wet or damp" ; :lightCondition "Daylight" ;
+    :occurredIn res:LSOA_W01000192 ;
+    :hasVehicle res:Vehicle_202560C000676_1 , res:Vehicle_202560C000676_2 .
+res:Vehicle_202560C000676_1 a :Vehicle ; :vehicleType "Car" ;
+    :vehicleManoeuvre "Going ahead" ; :driverAge 22 ;
+    :hasCasualty res:Casualty_202560C000676_1 .
+res:Casualty_202560C000676_1 a :Casualty ; :casualtySeverity "Serious" ;
+    :casualtyClass "Passenger" ; :casualtyAgeBand 4 .
+res:LSOA_W01000192 a :LSOA ; :areaCode "W01000192" ; :partOf res:LA_W06000004 .
+res:LA_W06000004 a :LocalAuthority ; :areaName "Denbighshire" ;
+    :partOf res:PoliceForce_60 .
+\end{verbatim}
+
+\section{URI design}
+\begin{itemize}[nosep]
+\item \textbf{Two namespaces.} Schema terms: \texttt{https://crash.example.org/ontology\#} (prefix \texttt{:}). Instance data: \texttt{https://crash.example.org/resource/} (prefix \texttt{res:}). Keeping them apart separates the T-Box from the A-Box, so the schema can be loaded and versioned on its own. \texttt{example.org} is reserved for examples, so the IRIs never clash with a real site.
+\item \textbf{Hash for schema, slash for data.} The ontology is one small document, so \texttt{\#} terms fit. Instances are many separate resources, so each gets its own slash IRI.
+\item \textbf{Patterns.} Each IRI is the class name plus the identifier that STATS19 itself uses:
+\end{itemize}
+\begin{center}\small
+\begin{tabular}{L{2.4cm} L{7.6cm} L{6.0cm}}
+\toprule \textbf{Entity} & \textbf{Pattern} & \textbf{Example}\\\midrule
+Collision & \texttt{res:Collision\_\{collision\_index\}} & \texttt{res:Collision\_202560C000676}\\
+Vehicle & \texttt{res:Vehicle\_\{collision\_index\}\_\{vehicle\_ref\}} & \texttt{res:Vehicle\_202560C000676\_1}\\
+Casualty & \texttt{res:Casualty\_\{collision\_index\}\_\{casualty\_ref\}} & \texttt{res:Casualty\_202560C000676\_1}\\
+LSOA & \texttt{res:LSOA\_\{ONS LSOA code\}} & \texttt{res:LSOA\_W01000192}\\
+Local authority & \texttt{res:LA\_\{ONS district code\}} & \texttt{res:LA\_W06000004}\\
+Police force & \texttt{res:PoliceForce\_\{police\_force code\}} & \texttt{res:PoliceForce\_60}\\
+\bottomrule
+\end{tabular}\end{center}
+\textbf{Rationale.}
+\begin{itemize}[nosep]
+\item \textbf{Stable and reproducible}: IRIs come from the official keys, not from row numbers or random ids, so running the script again (or adding another year) gives the same IRIs and no duplicates.
+\item \textbf{Unique}: \texttt{collision\_index} is unique nationally (year + police reference). A vehicle or casualty reference is only unique inside one collision, so the collision index is included in its IRI.
+\item \textbf{Traceable}: every answer can be traced back to the original CSV row, which is the evidence the CRASH advisor shows to users. Area IRIs use ONS codes, so they can be linked to other government data later.
+\item \textbf{Readable}: the class-name prefix shows what an IRI is when browsing GraphDB, and the IRIs need no escaping (letters, digits and \texttt{\_} only).
+\item \textbf{Labels as literals}: coded values are text literals, not IRIs, as decided in Part B. This keeps the graph small and the SPARQL simple.
+\end{itemize}
+
+\section{Validation}
+After writing, the script re-parses \texttt{crash\_data.ttl} with rdflib (so the file is valid Turtle) and runs these SPARQL checks. All pass.
+
+\begin{center}\small
+\begin{tabular}{L{9.6cm} r r}
+\toprule \textbf{Check} & \textbf{Expected} & \textbf{Result}\\\midrule
+Triples in the file & $\geq$ 500 & 30,865\\
+Collisions / vehicles / casualties & 1,115 / 1,962 / 1,491 & same\\
+KSI collisions (\cls{FatalCollision} $\cup$ \cls{SeriousCollision}) & 432 & 432\\
+LSOAs & 510 & 510\\
+Vehicles not linked to a collision & 0 & 0\\
+Casualties not linked to a vehicle (hence a collision) & 0 & 0\\
+Collisions without an LSOA & 0 & 0\\
+LSOAs with full chain LSOA $\rightarrow$ local authority $\rightarrow$ police force & 510 & 510\\
+LSOAs with $\geq$ 3 KSI collisions (future \cls{HighRiskArea}) & 30 & 30\\
+\bottomrule
+\end{tabular}\end{center}
+
+\noindent\textbf{Instances per asserted class}: \cls{Collision} (slight) 683, \cls{FatalCollision} 41, \cls{SeriousCollision} 391, \cls{Vehicle} 1,962, \cls{Casualty} (other road users) 945, \cls{Pedestrian} 190, \cls{Cyclist} 150, \cls{Motorcyclist} 206, \cls{LSOA} 510, \cls{LocalAuthority} 11 (Isle of Anglesey, Gwynedd, Conwy, Denbighshire, Flintshire, Wrexham under North Wales; Blaenau Gwent, Caerphilly, Monmouthshire, Newport, Torfaen under Gwent), \cls{PoliceForce} 2.
+
+\noindent\textbf{Reasoning check.} Loading \texttt{crash\_schema.ttl} with \texttt{crash\_data.ttl} and running an OWL 2 RL reasoner (owlrl) infers 432 \cls{KSICollision}, 546 \cls{VulnerableRoadUser}, 520 \cls{VRUCollision} and 1,491 \texttt{involvesCasualty} links, none of which are stored in the data file.
+
+\section{Files}
+\begin{itemize}[nosep]
+\item \texttt{crash\_build\_abox.py}: cleaning, transformation and validation script.
+\item \texttt{crash\_data.ttl}: instance data (A-Box), 30,865 triples.
+\item \texttt{crash\_schema.ttl}: ontology (T-Box), from Part B.
+\item Original data: the three STATS19 2025 CSVs and the 2025 data guide.
+\end{itemize}
+\end{document}
