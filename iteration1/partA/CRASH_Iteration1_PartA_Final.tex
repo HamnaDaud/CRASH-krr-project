@@ -1,0 +1,71 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{longtable,booktabs,array}
+\setlength{\LTpre}{6pt}\setlength{\LTpost}{6pt}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\cls}[1]{\textsf{#1}}
+\pagestyle{plain}
+\title{CRASH: Collision Risk Analysis through Semantic Hierarchies\\[4pt]
+\large AI-3001 Iteration 1 --- Competency Questions and CQ-to-KG Mapping}
+\date{}
+\author{Team members: Ritaj, Hamna, Tahreem}
+\begin{document}
+\maketitle
+\section{Competency Questions}
+Data: UK DfT STATS19 2025, all collisions of North Wales Police and Gwent Police. ``Serious or fatal'' means KSI (killed or seriously injured).
+\small
+\begin{longtable}{L{0.9cm} L{6.0cm} L{2.1cm} L{6.6cm}}
+\toprule
+\textbf{ID} & \textbf{Competency question} & \textbf{Category} & \textbf{Why it needs the KG}\\
+\midrule
+\endhead
+CQ1 & Which collisions involved a vulnerable road user (pedestrian, cyclist or motorcyclist), and what type of vehicle was it? & Multi-hop & Three hops (collision, vehicle, casualty); \cls{Pedestrian}, \cls{Cyclist} and \cls{Motorcyclist} roll up to \cls{VulnerableRoadUser}. The answer is a list of collision IDs.\\
+CQ2 & Which five local authorities had the most serious or fatal collisions on A roads in wet or icy conditions? & Aggregation & Exact counts under four combined filters for one year and one sample.\\
+CQ3 & Which areas are high-risk, and which police force covers each one? & Inference & \cls{HighRiskArea} is derived by a counting rule; the area chain is transitive. Needs counts per small area.\\
+CQ4 & When a pedestrian was killed or seriously hurt, what was the vehicle doing, and was it dark? & Multi-hop & Casualty to vehicle to collision; \cls{Pedestrian} and KSI come from class hierarchies, light is read from the collision.\\
+CQ5 & In each police force area, how many serious or fatal collisions happened in the dark and how many in daylight? & Aggregation & Four darkness labels are grouped as ``dark'' before counting, per police force reached through the area hierarchy.\\
+CQ6 & Which serious or fatal collisions happened in the Gwent police area, and which of them involved a vulnerable road user? & Inference & No collision is stored in a police force area or as serious, fatal or vulnerable-road-user: all three come from the transitive area chain and the defined classes \cls{KSICollision} and \cls{VRUCollision}.\\
+CQ7 & When a cyclist was killed or seriously hurt, what other vehicles were involved? & Multi-hop & Casualty, own vehicle, collision, other vehicles: four hops and a count.\\
+CQ8 & Which type of road has the most serious or fatal collisions? & Aggregation & Grouping and counting by road type (optionally by force through the area hierarchy).\\
+CQ9 & Which children were killed or seriously hurt, and were they pedestrians, passengers or drivers? & Inference & \cls{ChildCasualty} is inferred by rule from age bands 1 to 3; the casualty links back to its collision.\\
+CQ10 & Which collisions on fast roads (50\,mph or more) left a motorcyclist killed or seriously hurt? & Multi-hop & FILTER on the collision, inference on casualty type two hops away.\\
+CQ11 & At which type of junction do most serious or fatal collisions happen? & Aggregation & Counting by junction type; an optional extra adds pedestrian counts with OPTIONAL.\\
+CQ12 & For a given collision identifier, what are its associated vehicles, casualties, severity, road and weather conditions, and administrative areas (LSOA, local authority and police force)? & LLM-hard & Record-level retrieval across every hop; an LLM cannot know or list real collision records.\\
+CQ13 & In each high-risk area, how many serious or fatal collisions involved a vulnerable road user? & LLM-hard & Combines a derived class with exact counts per area; no outside source holds this answer.\\
+CQ14 & Which collisions are most similar to this fatal collision? & KG reasoning & Answered by the KG reasoning component (TransE or multi-hop similarity) in a later iteration.\\
+\bottomrule
+\end{longtable}
+\normalsize
+\clearpage
+\section{CQ-to-KG Mapping}
+Names are those of the ontology file \texttt{crash\_schema.ttl}. Arrows show the graph path; $^{+}$ is the SPARQL property-path operator. ``KSI'' = \cls{KSICollision} (R1) or, for a casualty, \textit{casualtySeverity} is ``Fatal'' or ``Serious''. Road type, junction, weather, light and surface are text values (data properties), so they are matched with FILTER.
+\footnotesize
+\begin{longtable}{L{0.8cm} L{3.3cm} L{3.9cm} L{1.7cm} L{5.8cm}}
+\toprule
+\textbf{CQ} & \textbf{Classes} & \textbf{Properties} & \textbf{Rules} & \textbf{Graph path}\\
+\midrule
+\endhead
+CQ1 & Collision, Vehicle, Casualty, VulnerableRoadUser (Pedestrian, Cyclist, Motorcyclist), VRUCollision & hasVehicle, hasCasualty, involvesCasualty, vehicleType, collisionIndex & R3, R4, R6 & Collision $\rightarrow$ involvesCasualty $\rightarrow$ Casualty (type VulnerableRoadUser); Collision $\rightarrow$ hasVehicle $\rightarrow$ Vehicle $\rightarrow$ vehicleType\\
+CQ2 & KSICollision, LSOA, LocalAuthority & roadClass, surfaceCondition, occurredIn, partOf & R1, R5 & KSICollision with roadClass ``A'' or ``A(M)'' and surfaceCondition ``Wet or damp'' or ``Frost or ice''; $\rightarrow$ occurredIn $\rightarrow$ LSOA $\rightarrow$ partOf LocalAuthority; GROUP BY, ORDER BY DESC, LIMIT 5\\
+CQ3 & LSOA, LocalAuthority, PoliceForce, KSICollision, HighRiskArea & occurredIn, partOf, areaCode, areaName & R1, R5, R7 & Collision $\rightarrow$ occurredIn $\rightarrow$ LSOA (HighRiskArea, at least 3 KSICollisions) $\rightarrow$ partOf$^{+}$ $\rightarrow$ PoliceForce\\
+CQ4 & Pedestrian, Casualty, Vehicle, Collision & hasCasualty, hasVehicle, casualtySeverity, vehicleManoeuvre, lightCondition & R4 & Collision $\rightarrow$ hasVehicle $\rightarrow$ Vehicle (vehicleManoeuvre) $\rightarrow$ hasCasualty $\rightarrow$ Casualty (type Pedestrian, casualtySeverity Fatal or Serious); lightCondition of the collision\\
+CQ5 & KSICollision, LSOA, LocalAuthority, PoliceForce & lightCondition, occurredIn, partOf & R1, R5 & KSICollision $\rightarrow$ lightCondition (``Daylight'' vs labels starting ``Darkness''); $\rightarrow$ occurredIn $\rightarrow$ LSOA $\rightarrow$ partOf$^{+}$ PoliceForce; COUNT per group\\
+CQ6 & KSICollision, VRUCollision, LSOA, LocalAuthority, PoliceForce & occurredIn, partOf, involvesCasualty, areaName & R1, R3, R5, R6 & Collision (KSICollision) $\rightarrow$ occurredIn $\rightarrow$ LSOA $\rightarrow$ partOf$^{+}$ $\rightarrow$ PoliceForce ``Gwent''; flag each collision that is also a VRUCollision (via involvesCasualty)\\
+CQ7 & Cyclist, Vehicle, Collision & hasCasualty, hasVehicle, vehicleType, casualtySeverity & R4 & Casualty (type Cyclist, casualtySeverity Fatal or Serious) $\leftarrow$ hasCasualty $\leftarrow$ Vehicle $\leftarrow$ hasVehicle $\leftarrow$ Collision $\rightarrow$ hasVehicle $\rightarrow$ other Vehicle (FILTER $\neq$) $\rightarrow$ vehicleType; COUNT\\
+CQ8 & KSICollision, PoliceForce & roadType, occurredIn, partOf & R1, R5 & KSICollision $\rightarrow$ roadType; GROUP BY roadType, COUNT, ORDER BY; optionally split by police force through occurredIn/partOf$^{+}$\\
+CQ9 & ChildCasualty, Casualty, Collision & casualtyAgeBand, casualtyClass, casualtySeverity, involvesCasualty & R6, R8 & Collision $\rightarrow$ involvesCasualty $\rightarrow$ Casualty (ChildCasualty, casualtySeverity Fatal or Serious) $\rightarrow$ casualtyClass\\
+CQ10 & Collision, Motorcyclist & speedLimit, involvesCasualty, casualtySeverity & R4, R6 & Collision (FILTER speedLimit $\geq 50$) $\rightarrow$ involvesCasualty $\rightarrow$ Casualty (Motorcyclist, casualtySeverity Fatal or Serious)\\
+CQ11 & KSICollision, Pedestrian & junctionType, involvesCasualty & R1, R4, R6 & KSICollision $\rightarrow$ junctionType; GROUP BY, COUNT; optional extra: OPTIONAL \{ $\rightarrow$ involvesCasualty $\rightarrow$ Pedestrian \}\\
+CQ12 & Collision, Vehicle, Casualty, LSOA, LocalAuthority, PoliceForce & all object and data properties & R5, R6 & Collision (by collisionIndex) $\rightarrow$ every outgoing edge, 1 to 3 hops, including occurredIn/partOf$^{+}$\\
+CQ13 & HighRiskArea, VRUCollision, KSICollision & occurredIn, involvesCasualty & R1, R3, R7 & HighRiskArea $\leftarrow$ occurredIn $\leftarrow$ Collision (KSICollision, VRUCollision); COUNT per area\\
+CQ14 & Collision and all linked entities & all object properties as embedding triples & R1, R3 (labels for evaluation) & TransE vectors over (Collision, property, value) triples; nearest neighbours by cosine distance\\
+\bottomrule
+\end{longtable}
+\normalsize
+\noindent\textbf{Rules.} R1 KSICollision = FatalCollision or SeriousCollision. R3 VRUCollision = collision with involvesCasualty some VulnerableRoadUser. R4 Pedestrian, Cyclist, Motorcyclist are subclasses of VulnerableRoadUser. R5 partOf is transitive (LSOA, local authority, police force). R6 involvesCasualty = hasVehicle then hasCasualty. R1 to R6 are OWL2-RL; R7 HighRiskArea (LSOA with at least 3 KSICollisions) and R8 ChildCasualty (age band 1 to 3) are SPARQL INSERT queries because GraphDB has no SWRL.
+\end{document}
