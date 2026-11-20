@@ -1,0 +1,71 @@
+@prefix :     <https://crash.example.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# CRASH schema (T-Box), STATS19 2025, North Wales + Gwent.
+# Instance IRIs (suggested): https://crash.example.org/resource/Collision_<collision_index>,
+#   Vehicle_<index>_<vehicle_ref>, Casualty_<index>_<casualty_ref>, LSOA_<code>, LA_<ons_code>, PoliceForce_60
+#
+# Rules run outside OWL (GraphDB SPARQL INSERT; GraphDB has no SWRL):
+#  R7 HighRiskArea:  INSERT { ?l a :HighRiskArea } WHERE { { SELECT ?l WHERE {
+#        ?c a :KSICollision ; :occurredIn ?l } GROUP BY ?l HAVING (COUNT(DISTINCT ?c) >= 3) } }
+#  R8 ChildCasualty: INSERT { ?x a :ChildCasualty } WHERE { ?x a :Casualty ; :casualtyAgeBand ?b . FILTER(?b >= 1 && ?b <= 3) }
+
+<https://crash.example.org/ontology> a owl:Ontology ;
+  rdfs:label "CRASH road-safety ontology" ; owl:versionInfo "1.1" .
+
+### Classes (17)
+:Collision a owl:Class ; rdfs:comment "One collision (a row of the collision CSV)." .
+:FatalCollision   a owl:Class ; rdfs:subClassOf :Collision ; rdfs:comment "collision_severity = 1" .
+:SeriousCollision a owl:Class ; rdfs:subClassOf :Collision ; rdfs:comment "collision_severity = 2" .
+:KSICollision a owl:Class ; rdfs:comment "R1: fatal or serious collision (defined class)." ;
+  owl:equivalentClass [ a owl:Class ; owl:unionOf ( :FatalCollision :SeriousCollision ) ] .
+:VRUCollision a owl:Class ; rdfs:comment "R3: collision with a vulnerable road user casualty (defined class)." ;
+  owl:equivalentClass [ a owl:Restriction ; owl:onProperty :involvesCasualty ; owl:someValuesFrom :VulnerableRoadUser ] .
+:Vehicle a owl:Class ; rdfs:comment "One vehicle (a row of the vehicle CSV)." .
+:Casualty a owl:Class ; rdfs:comment "One casualty (a row of the casualty CSV)." .
+:VulnerableRoadUser a owl:Class ; rdfs:subClassOf :Casualty .
+:Pedestrian  a owl:Class ; rdfs:subClassOf :VulnerableRoadUser ; rdfs:comment "casualty_type 0" .
+:Cyclist     a owl:Class ; rdfs:subClassOf :VulnerableRoadUser ; rdfs:comment "casualty_type 1" .
+:Motorcyclist a owl:Class ; rdfs:subClassOf :VulnerableRoadUser ; rdfs:comment "casualty_type 2,3,4,5,23,97" .
+:ChildCasualty a owl:Class ; rdfs:subClassOf :Casualty ; rdfs:comment "R8: age band 1-3 (0-15 years), SPARQL INSERT." .
+:Area a owl:Class .
+:LSOA a owl:Class ; rdfs:subClassOf :Area .
+:LocalAuthority a owl:Class ; rdfs:subClassOf :Area .
+:PoliceForce a owl:Class ; rdfs:subClassOf :Area .
+:HighRiskArea a owl:Class ; rdfs:subClassOf :LSOA ; rdfs:comment "R7: LSOA with at least 3 KSI collisions, SPARQL INSERT." .
+
+### Disjointness
+[] a owl:AllDisjointClasses ; owl:members ( :Collision :Vehicle :Casualty :Area ) .
+[] a owl:AllDisjointClasses ; owl:members ( :LSOA :LocalAuthority :PoliceForce ) .
+:FatalCollision owl:disjointWith :SeriousCollision .
+
+### Object properties (5)
+:hasVehicle a owl:ObjectProperty ; rdfs:domain :Collision ; rdfs:range :Vehicle .
+:hasCasualty a owl:ObjectProperty ; rdfs:domain :Vehicle ; rdfs:range :Casualty .
+:involvesCasualty a owl:ObjectProperty ; rdfs:domain :Collision ; rdfs:range :Casualty ;
+  owl:propertyChainAxiom ( :hasVehicle :hasCasualty ) ; rdfs:comment "R6: Collision -> Vehicle -> Casualty shortcut." .
+:occurredIn a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range :LSOA .
+:partOf a owl:ObjectProperty , owl:TransitiveProperty ; rdfs:domain :Area ; rdfs:range :Area ;
+  rdfs:comment "R5: LSOA partOf LocalAuthority partOf PoliceForce." .
+
+### Data properties (17; coded values stored as text labels from the DfT data guide, -1/99 -> "Unknown")
+:collisionIndex a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string .
+:collisionDate  a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:date .
+:speedLimit     a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:integer .
+:roadClass      a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string ; rdfs:comment "e.g. A, B, Motorway" .
+:roadType       a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string .
+:junctionType   a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string .
+:lightCondition a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string ; rdfs:comment "Daylight or a Darkness label" .
+:weatherCondition a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string .
+:surfaceCondition a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Collision ; rdfs:range xsd:string ; rdfs:comment "e.g. Wet or damp, Frost or ice" .
+:vehicleType    a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Vehicle ; rdfs:range xsd:string .
+:vehicleManoeuvre a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Vehicle ; rdfs:range xsd:string .
+:driverAge      a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Vehicle ; rdfs:range xsd:integer ; rdfs:comment "Omit when -1 (missing)." .
+:casualtySeverity a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Casualty ; rdfs:range xsd:string ; rdfs:comment "Fatal, Serious or Slight" .
+:casualtyClass  a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Casualty ; rdfs:range xsd:string ; rdfs:comment "Driver or rider, Passenger, Pedestrian" .
+:casualtyAgeBand a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Casualty ; rdfs:range xsd:integer .
+:areaCode a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Area ; rdfs:range xsd:string .
+:areaName a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:domain :Area ; rdfs:range xsd:string .
