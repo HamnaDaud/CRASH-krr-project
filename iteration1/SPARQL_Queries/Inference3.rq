@@ -1,0 +1,5 @@
+# Example 3: LSOA partOf chain to the police force (R5, transitive) and HighRiskArea (R7)
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?l ?pf WHERE { res:LSOA_W01001662 a :HighRiskArea ; :partOf ?pf . ?pf a :PoliceForce }

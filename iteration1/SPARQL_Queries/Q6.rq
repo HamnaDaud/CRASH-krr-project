@@ -1,0 +1,8 @@
+# Q6: HighRiskArea LSOAs per local authority
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?localAuthority (COUNT(DISTINCT ?l) AS ?highRiskLSOAs) WHERE {
+  ?la a :LocalAuthority ; :areaName ?localAuthority .
+  OPTIONAL { ?l :partOf ?la ; a :HighRiskArea . }
+} GROUP BY ?localAuthority ORDER BY DESC(?highRiskLSOAs) ?localAuthority

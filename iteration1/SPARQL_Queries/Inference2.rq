@@ -1,0 +1,8 @@
+# Example 2: pedestrian casualty makes the collision a VRUCollision (R3, R4, R6)
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?c ?x WHERE {
+  VALUES ?c { res:Collision_2025610052425 }
+  ?c a :VRUCollision , :KSICollision ; :involvesCasualty ?x . ?x a :VulnerableRoadUser .
+}

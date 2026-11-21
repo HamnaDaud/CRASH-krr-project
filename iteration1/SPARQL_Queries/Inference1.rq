@@ -1,0 +1,5 @@
+# Example 1: SeriousCollision becomes KSICollision (R1, defined class)
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?type WHERE { res:Collision_202560C000676 a ?type . FILTER(STRSTARTS(STR(?type), "https://crash.example.org/ontology#")) }

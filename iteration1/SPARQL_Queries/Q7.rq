@@ -1,0 +1,9 @@
+# Q7 (CQ6): Gwent serious or fatal collisions, and how many involved a vulnerable road user
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT (COUNT(DISTINCT ?c) AS ?ksi) (COUNT(DISTINCT ?vru) AS ?withVRU) WHERE {
+  ?c a :KSICollision ; :occurredIn/:partOf+ ?pf .
+  ?pf a :PoliceForce ; :areaName "Gwent" .
+  OPTIONAL { ?c a :VRUCollision . BIND(?c AS ?vru) }
+}

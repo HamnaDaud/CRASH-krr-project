@@ -1,0 +1,8 @@
+# Q8 (CQ13): serious or fatal collisions with a vulnerable road user, per HighRiskArea
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?lsoa (COUNT(DISTINCT ?c) AS ?ksiVRU) WHERE {
+  ?l a :HighRiskArea ; :areaCode ?lsoa .
+  ?c a :KSICollision , :VRUCollision ; :occurredIn ?l .
+} GROUP BY ?lsoa ORDER BY DESC(?ksiVRU) ?lsoa

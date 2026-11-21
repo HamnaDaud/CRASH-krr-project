@@ -1,0 +1,8 @@
+# Q1 (CQ12-style): fatal collisions on fast roads
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?c ?date ?roadClass ?speed WHERE {
+  ?c a :FatalCollision ; :collisionDate ?date ; :roadClass ?roadClass ; :speedLimit ?speed .
+  FILTER(?speed >= 60)
+} ORDER BY ?date

@@ -1,0 +1,10 @@
+# Q4 (CQ3): HighRiskArea LSOAs with local authority and police force
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?lsoa ?localAuthority ?force (COUNT(DISTINCT ?c) AS ?ksi) WHERE {
+  ?l a :HighRiskArea ; :areaCode ?lsoa ; :partOf+ ?pf .
+  ?pf a :PoliceForce ; :areaName ?force .
+  ?l :partOf ?la . ?la a :LocalAuthority ; :areaName ?localAuthority .
+  ?c a :KSICollision ; :occurredIn ?l .
+} GROUP BY ?lsoa ?localAuthority ?force ORDER BY DESC(?ksi) ?lsoa

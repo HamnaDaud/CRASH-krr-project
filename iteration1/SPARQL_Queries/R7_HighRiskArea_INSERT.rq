@@ -1,0 +1,6 @@
+# R7: run once in GraphDB after loading schema + data (GraphDB has no SWRL)
+PREFIX : <https://crash.example.org/ontology#>
+INSERT { ?l a :HighRiskArea } WHERE {
+  { SELECT ?l WHERE { ?c a :KSICollision ; :occurredIn ?l }
+    GROUP BY ?l HAVING (COUNT(DISTINCT ?c) >= 3) }
+}

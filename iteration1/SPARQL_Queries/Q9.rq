@@ -1,0 +1,13 @@
+# Q9 (CQ12): full record of one collision
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?c ?light ?weather ?vehicleType ?casualty ?severity ?la ?force WHERE {
+  BIND(res:Collision_202560C002220 AS ?c)
+  ?c :lightCondition ?light ; :weatherCondition ?weather ; :hasVehicle ?v ;
+     :occurredIn/:partOf ?laIri .
+  ?v :vehicleType ?vehicleType .
+  ?v :hasCasualty ?x . ?x :casualtySeverity ?severity .
+  ?laIri :areaName ?la ; :partOf ?pf . ?pf :areaName ?force .
+  BIND(STRAFTER(STR(?x), "resource/") AS ?casualty)
+}

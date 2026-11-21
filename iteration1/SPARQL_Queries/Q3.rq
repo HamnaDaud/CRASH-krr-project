@@ -1,0 +1,9 @@
+# Q3 (CQ2): top 5 local authorities, serious or fatal collisions on A roads, wet or icy
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?localAuthority (COUNT(DISTINCT ?c) AS ?ksi) WHERE {
+  ?c a :KSICollision ; :roadClass "A" ; :surfaceCondition ?s ; :occurredIn ?l .
+  FILTER(?s IN ("Wet or damp", "Frost or ice"))
+  ?l :partOf ?la . ?la a :LocalAuthority ; :areaName ?localAuthority .
+} GROUP BY ?localAuthority ORDER BY DESC(?ksi) LIMIT 5

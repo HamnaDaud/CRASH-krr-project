@@ -1,0 +1,9 @@
+# Q10 (CQ10): motorcyclists seriously or fatally hurt on roads with limit 50+
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?c ?speed ?severity WHERE {
+  ?c a :KSICollision ; :speedLimit ?speed ; :involvesCasualty ?x .
+  ?x a :Motorcyclist ; :casualtySeverity ?severity .
+  FILTER(?speed >= 50 && ?severity IN ("Fatal","Serious"))
+} ORDER BY DESC(?speed) ?c

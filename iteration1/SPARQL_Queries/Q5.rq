@@ -1,0 +1,11 @@
+# Q5 (CQ4/CQ7 style): fatal or serious pedestrian and cyclist casualties
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?type (COUNT(DISTINCT ?x) AS ?casualties) WHERE {
+  { ?x a :Pedestrian . BIND("Pedestrian" AS ?type) }
+  UNION
+  { ?x a :Cyclist . BIND("Cyclist" AS ?type) }
+  ?x :casualtySeverity ?sev .
+  FILTER(?sev IN ("Fatal", "Serious"))
+} GROUP BY ?type

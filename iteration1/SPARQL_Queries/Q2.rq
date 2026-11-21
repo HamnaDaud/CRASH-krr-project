@@ -1,0 +1,8 @@
+# Q2 (CQ1): vehicle types in collisions with a vulnerable road user
+PREFIX :    <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+
+SELECT ?vehicleType (COUNT(DISTINCT ?c) AS ?collisions) WHERE {
+  ?c a :VRUCollision ; :hasVehicle ?v .
+  ?v :vehicleType ?vehicleType .
+} GROUP BY ?vehicleType ORDER BY DESC(?collisions)
