@@ -5,11 +5,10 @@ This repository holds **both iterations** in one structure:
 
 | Path | What it is |
 |---|---|
-| `iteration1/partA/` | Iteration 1 Part A: problem statement, 14 competency questions, CQ-to-KG mapping (tex + pdf), sample-selection check scripts |
-| `iteration1/partB_E/` | Iteration 1 Parts B–E: ontology, data, GraphDB verification, SPARQL queries and inference (tex + pdf), GraphDB guide, query list, screenshots |
-| `data/` | ontology `crash_schema.ttl`, RDF `crash_data.ttl` (31,036 triples), builder `crash_build_abox.py` – used by both iterations |
+| `iteration1/` | The submitted Iteration 1 package: `Report/` (combined report PDF), `SPARQL_Queries/` (Q1–Q10, Inference1–3, R7 INSERT, query list with expected results), `Results/` (one CSV per query + screenshot PDF), `Visualization/` (GraphDB graph views), `README.txt` |
+| `data/` | ontology `crash_schema.ttl` (171 triples), RDF `crash_data.ttl` (30,865 triples; 31,036 together), builder `crash_build_abox.py` – the files submitted in Iteration 1, used unchanged by Iteration 2 |
 | `crash/`, `eval/`, `tests/`, `results/` | Iteration 2 code, evaluation, tests and results (see below) |
-| `docs/` | explainability examples, captured console screenshots, Git steps (`CRASH_Git_Steps_Phase2.*`), course briefs in `docs/brief/` |
+| `docs/` | explainability examples, captured console screenshots, Git steps (`CRASH_Git_Steps_Phase2.*`), the course briefs in `docs/brief/` |
 | `report/` | Iteration 2 report source (`build_report.py`) and the PDF |
 
 The raw DfT CSV files (about 48 MB) are **not** in the repository: see "Data preparation" below. Frozen submission version: see the commit hash in the report.
