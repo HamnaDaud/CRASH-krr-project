@@ -1,7 +1,9 @@
 # CRASH – Collision Risk Analysis through Semantic Hierarchies (AI-3001 KRR, Fall 2026)
 
-Knowledge-grounded road-safety advisor for Great Britain, built on the DfT STATS19 2025 data (OGL v3.0). Team: Hamna Daud (24i0039, `HamnaDaud`), Ritaj Suleman (24i0112, `ritaj-suleman`), Tahreem Fatima (24i0025).
-This repository holds **both iterations** in one structure:
+Knowledge-grounded road-safety advisor for Great Britain, built on the DfT STATS19 2025 data (OGL v3.0). 
+
+Team: Hamna Daud (24i0039, `HamnaDaud`), Ritaj Suleman (24i0112, `ritaj-suleman`), `Tahreem Fatima` (24i0025).
+
 
 | Path | What it is |
 |---|---|
@@ -57,7 +59,6 @@ pip install -r requirements.txt
 cp config.sample.env .env      # then edit .env and add your own key; .env is git-ignored
 export $(grep -v '^#' .env | xargs)                    # Windows PowerShell: set the variables by hand
 ```
-Never commit a real `ANTHROPIC_API_KEY`.
 
 ## Data preparation (only if you want to rebuild the RDF)
 Download the three 2025 CSVs and the data guide from <https://www.gov.uk/government/statistical-data-sets/road-safety-open-data>
@@ -85,5 +86,3 @@ The results committed in this repository were produced this way (see the report,
 `[stored]` fact in the graph · `[inferred]` derived by rule R1–R8 (tag computed by re-running the query on stored triples only) ·
 `[predicted]` TransE prediction, never a confirmed fact · *AI-written* = the LLM's text.
 
-## Credits and licences
-Data: UK DfT Road Safety Open Data, OGL v3.0. TransE: Bordes et al. 2013. Libraries: rdflib, numpy, pandas, Anthropic SDK.
