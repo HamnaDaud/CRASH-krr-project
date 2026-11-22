@@ -1,6 +1,6 @@
 rdflib>=7.0
 numpy>=1.26
-anthropic>=0.40
+openai>=1.40
 pandas>=2.0
 matplotlib>=3.8
 pytest>=8.0
