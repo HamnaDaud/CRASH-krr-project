@@ -1,9 +1,7 @@
 # CRASH – Collision Risk Analysis through Semantic Hierarchies (AI-3001 KRR, Fall 2026)
 
-Knowledge-grounded road-safety advisor for Great Britain, built on the DfT STATS19 2025 data (OGL v3.0). 
-
-Team: Hamna Daud (24i0039, `HamnaDaud`), Ritaj Suleman (24i0112, `ritaj-suleman`), `Tahreem Fatima` (24i0025).
-
+Knowledge-grounded road-safety advisor for Great Britain, built on the DfT STATS19 2025 data (OGL v3.0). Team: Hamna Daud (24i0039, `HamnaDaud`), Ritaj Suleman (24i0112, `ritaj-suleman`), Tahreem Fatima (24i0025).
+This repository holds **both iterations** in one structure:
 
 | Path | What it is |
 |---|---|
@@ -52,13 +50,25 @@ TransE (stored triples only) → [predicted] similar collisions / missing attrib
 | `docs/explainability_examples.md` | 3+ worked examples |
 
 ## Prerequisites and setup
-Python 3.11+. Tested with Python 3.13, rdflib 7, numpy 2, pandas 3.
+Python 3.11+. Tested with Python 3.13, rdflib 7, numpy 2, pandas 3. The LLM is called through Groq's **free** OpenAI-compatible API
+(model `openai/gpt-oss-120b`); no credit card is needed.
+
+1. Get a free key: sign up at <https://console.groq.com> and create a key at <https://console.groq.com/keys>.
+2. Install and configure:
 ```bash
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-cp config.sample.env .env      # then edit .env and add your own key; .env is git-ignored
-export $(grep -v '^#' .env | xargs)                    # Windows PowerShell: set the variables by hand
+cp config.sample.env .env      # then edit .env: paste your key after LLM_API_KEY=  (.env is git-ignored)
+export $(grep -v '^#' .env | xargs)                    # Windows PowerShell: $env:LLM_API_KEY="..."  (same for the other variables)
 ```
+Never commit a real key. The same model, temperature 0 and token limits are used for both evaluation conditions (LLM-only and KG-grounded).
+
+**Free-tier limits.** Groq allows 8,000 tokens per minute for this model. `crash/llm.py` keeps itself under that budget automatically
+(`CRASH_TPM`), so a single question takes a few seconds and the full evaluation (13 questions, about 40 LLM calls) takes about 15 minutes.
+There is also a **daily** limit (about 200,000 tokens for `gpt-oss-120b`, roughly 40 questions; it is per Groq account, not per key). Do not burn it on
+test runs before a live demo. Optionally set `CRASH_FALLBACK_MODEL=openai/gpt-oss-20b` in `.env`: the app then switches to that model (own quota, weaker)
+when the daily limit is reached. Leave it empty for the evaluation so both conditions use one model.
+Other OpenAI-compatible providers work by changing `LLM_BASE_URL` and `CRASH_MODEL` (see `config.sample.env`); xAI Grok is credit-based, not free.
 
 ## Data preparation (only if you want to rebuild the RDF)
 Download the three 2025 CSVs and the data guide from <https://www.gov.uk/government/statistical-data-sets/road-safety-open-data>
@@ -69,20 +79,24 @@ The committed `data/crash_data.ttl` already contains the result (the raw CSVs ar
 ## Run
 ```bash
 python -m pytest -q tests                    # symbolic layer + retrieval guard + TransE (no key needed)
-python -m crash.train_eval_embeddings --seed 0   # ~25 s per seed; writes results/embedding_eval_seed0.json
-python -m crash.app                          # interactive chat (needs ANTHROPIC_API_KEY)
-python -m crash.app --web 8000               # web UI at http://127.0.0.1:8000
-python -m eval.gold                          # recompute expected answers from gold SPARQL
-python -m eval.run_eval --backend anthropic  # 10 CQ + 3 probes, both conditions -> results/eval_results.json
+python -m crash.app --ask "Which five local authorities had the most fatal or serious collisions on A roads in wet or icy conditions?"
+python -m crash.app                          # interactive chat (needs LLM_API_KEY)
+python -m crash.app --web 8000               # web UI at http://127.0.0.1:8000 (cards, evidence table, example buttons, /similar)
+python -m crash.train_eval_embeddings --seed 0   # ~25 s per seed; writes results/embedding_eval_seed0.json (no key needed)
+python -m eval.gold                          # recompute expected answers from gold SPARQL (no key needed)
+python -m eval.run_eval --backend openai     # 10 CQ + 3 probes, both conditions -> results/eval_results.json (about 15 min)
+python -m eval.reliability --runs 3         # repeat the 3 demo questions on the live model and count correct answers (uses tokens!)
+python -m eval.run_eval --backend openai --limit 3 --out /tmp/slice.json    # quick live check, does not touch the committed results
 ```
-In the chat: `/similar Collision_202560C002220` (embedding-based, predicted), `/rules`.
+In the chat: `/similar Collision_202560C002220` (embedding-based, predicted), `/rules`. A step-by-step live demo is in `docs/DEMO.md`.
 
-### Running without an API key (`--backend manual`)
-`crash/llm.py` has a file-based backend: each prompt is written to `eval/manual/pending/<id>.json`; a person (or any model session) writes the
-response to `eval/manual/responses/<id>.txt` and the command is run again. The code path is identical to the API backend.
-The results committed in this repository were produced this way (see the report, section "What was and was not run").
+### Legacy offline replay (`--backend manual`, not needed for the demo)
+`eval/manual/` holds prompt/response files from an earlier run in which a Claude session answered the prompts because no API key was available.
+They are kept only for history and are not used by the default path or by the committed `results/eval_results.json`, which now comes from the Groq run.
 
 ## Labels used everywhere
 `[stored]` fact in the graph · `[inferred]` derived by rule R1–R8 (tag computed by re-running the query on stored triples only) ·
 `[predicted]` TransE prediction, never a confirmed fact · *AI-written* = the LLM's text.
 
+## Credits and licences
+Data: UK DfT Road Safety Open Data, OGL v3.0. TransE: Bordes et al. 2013. Libraries: rdflib, numpy, pandas, OpenAI Python SDK (client for the Groq OpenAI-compatible API).
