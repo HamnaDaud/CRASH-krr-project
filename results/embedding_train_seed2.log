@@ -1,0 +1,48 @@
+26729 training-graph triples
+held out 1003 collision links (3.8% of all); training on 25726
+epoch   0  mean margin loss 0.6500
+epoch  25  mean margin loss 0.1539
+epoch  50  mean margin loss 0.1419
+epoch  75  mean margin loss 0.1447
+epoch 100  mean margin loss 0.1413
+epoch 125  mean margin loss 0.1347
+epoch 150  mean margin loss 0.1356
+epoch 175  mean margin loss 0.1397
+epoch 200  mean margin loss 0.1349
+epoch 225  mean margin loss 0.1353
+epoch 250  mean margin loss 0.1370
+epoch 275  mean margin loss 0.1340
+epoch 299  mean margin loss 0.1358
+{
+ "TransE": {
+  "n": 1003,
+  "MRR": 0.7326316825950875,
+  "Hits@1": 0.6181455633100698,
+  "Hits@3": 0.8454636091724825,
+  "Hits@10": 0.8973080757726819
+ },
+ "Popularity": {
+  "n": 1003,
+  "MRR": 0.7187385035802842,
+  "Hits@1": 0.5892323030907278,
+  "Hits@3": 0.8444666001994018,
+  "Hits@10": 0.8913260219341974
+ },
+ "Random": {
+  "n": 1003,
+  "MRR": 0.3946450937844732,
+  "Hits@1": 0.1744765702891326,
+  "Hits@3": 0.5204386839481555,
+  "Hits@10": 0.8903290129611167
+ }
+}
+collisionSeverity  n= 98 MRR TransE 0.823  Pop 0.782  Rand 0.614
+junctionType       n=132 MRR TransE 0.765  Pop 0.782  Rand 0.389
+lightCondition     n=101 MRR TransE 0.877  Pop 0.866  Rand 0.434
+occurredIn         n=112 MRR TransE 0.023  Pop 0.016  Rand 0.010
+roadClass          n=123 MRR TransE 0.750  Pop 0.692  Rand 0.499
+roadType           n=103 MRR TransE 0.892  Pop 0.895  Rand 0.437
+speedLimit         n=121 MRR TransE 0.705  Pop 0.689  Rand 0.434
+surfaceCondition   n=110 MRR TransE 0.880  Pop 0.867  Rand 0.446
+weatherCondition   n=103 MRR TransE 0.930  Pop 0.929  Rand 0.305
+{'mean_jaccard_top5_neighbours': 0.5035414973914973, 'mean_jaccard_random_pairs': 0.33389074259074253}
