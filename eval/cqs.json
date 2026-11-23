@@ -1,0 +1,96 @@
+[
+ {
+  "id": "CQ-01",
+  "cq": "CQ1",
+  "q": "Which collisions involved a vulnerable road user (pedestrian, cyclist or motorcyclist), and what types of vehicle were involved? Give the number of such collisions and the most common vehicle types with counts.",
+  "gold": "SELECT ?vehicleType (COUNT(DISTINCT ?c) AS ?n) WHERE { ?c a :VRUCollision ; :hasVehicle ?v . ?v :vehicleType ?vehicleType } GROUP BY ?vehicleType ORDER BY DESC(?n)",
+  "total": "SELECT (COUNT(DISTINCT ?c) AS ?n) WHERE { ?c a :VRUCollision }",
+  "keys": [
+   "total",
+   "top3"
+  ]
+ },
+ {
+  "id": "CQ-02",
+  "cq": "CQ2",
+  "q": "Which five local authorities had the most serious or fatal collisions on A roads in wet or icy conditions, and how many did each have?",
+  "gold": "SELECT ?la (COUNT(DISTINCT ?c) AS ?n) WHERE { ?c a :KSICollision ; :roadClass \"A\" ; :surfaceCondition ?s ; :occurredIn ?l . FILTER(?s IN (\"Wet or damp\",\"Frost or ice\")) ?l :partOf ?a . ?a a :LocalAuthority ; :areaName ?la } GROUP BY ?la ORDER BY DESC(?n) ?la LIMIT 5",
+  "keys": [
+   "all"
+  ]
+ },
+ {
+  "id": "CQ-03",
+  "cq": "CQ3",
+  "q": "Which areas (LSOAs) are high-risk, meaning at least three serious or fatal collisions, and which police force covers each one? How many are there and which have the most?",
+  "gold": "SELECT ?lsoa ?force (COUNT(DISTINCT ?c) AS ?n) WHERE { ?l a :HighRiskArea ; :areaCode ?lsoa ; :partOf+ ?pf . ?pf a :PoliceForce ; :areaName ?force . ?c a :KSICollision ; :occurredIn ?l } GROUP BY ?lsoa ?force ORDER BY DESC(?n) ?lsoa",
+  "keys": [
+   "count",
+   "top4"
+  ]
+ },
+ {
+  "id": "CQ-04",
+  "cq": "CQ4",
+  "q": "When a pedestrian was killed or seriously hurt, what was the vehicle doing (manoeuvre), and was it dark or daylight? Summarise with counts.",
+  "gold": "SELECT ?man (COUNT(DISTINCT ?k) AS ?n) WHERE { ?c :hasVehicle ?v . ?v :vehicleManoeuvre ?man ; :hasCasualty ?k . ?k a :Pedestrian ; :casualtySeverity ?s . FILTER(?s IN (\"Fatal\",\"Serious\")) } GROUP BY ?man ORDER BY DESC(?n)",
+  "keys": [
+   "top3"
+  ]
+ },
+ {
+  "id": "CQ-05",
+  "cq": "CQ5",
+  "q": "In each police force area, how many serious or fatal collisions happened in the dark and how many in daylight?",
+  "gold": "SELECT ?force ?cond (COUNT(DISTINCT ?c) AS ?n) WHERE { ?c a :KSICollision ; :lightCondition ?light ; :occurredIn ?l . ?l :partOf+ ?pf . ?pf a :PoliceForce ; :areaName ?force . BIND(IF(STRSTARTS(?light,\"Dark\"),\"dark\",\"daylight\") AS ?cond) } GROUP BY ?force ?cond",
+  "keys": [
+   "all"
+  ]
+ },
+ {
+  "id": "CQ-06",
+  "cq": "CQ6",
+  "q": "How many serious or fatal collisions happened in the Gwent police area, and how many of them involved a vulnerable road user?",
+  "gold": "SELECT (COUNT(DISTINCT ?c) AS ?ksi) (COUNT(DISTINCT ?vru) AS ?withVRU) WHERE { ?c a :KSICollision ; :occurredIn/:partOf+ ?pf . ?pf a :PoliceForce ; :areaName \"Gwent\" . OPTIONAL { ?c a :VRUCollision . BIND(?c AS ?vru) } }",
+  "keys": [
+   "all"
+  ]
+ },
+ {
+  "id": "CQ-07",
+  "cq": "CQ9",
+  "q": "Which children (age 0-15) were killed or seriously hurt, and were they pedestrians, passengers or drivers? Give counts by casualty class.",
+  "gold": "SELECT ?cls (COUNT(DISTINCT ?k) AS ?n) WHERE { ?k a :ChildCasualty ; :casualtySeverity ?s ; :casualtyClass ?cls . FILTER(?s IN (\"Fatal\",\"Serious\")) } GROUP BY ?cls ORDER BY DESC(?n)",
+  "keys": [
+   "all"
+  ]
+ },
+ {
+  "id": "CQ-08",
+  "cq": "CQ10",
+  "q": "Which collisions on fast roads (speed limit 50 mph or more) left a motorcyclist killed or seriously hurt? How many collisions, and the speed limit of the fastest ones?",
+  "gold": "SELECT (COUNT(DISTINCT ?c) AS ?n) WHERE { ?c :speedLimit ?sp ; :involvesCasualty ?x . ?x a :Motorcyclist ; :casualtySeverity ?sev . FILTER(?sp >= 50 && ?sev IN (\"Fatal\",\"Serious\")) }",
+  "keys": [
+   "all"
+  ]
+ },
+ {
+  "id": "CQ-09",
+  "cq": "CQ12",
+  "q": "For collision 202560C002220, what are its vehicles, casualties, severity, road and weather conditions and administrative areas (LSOA, local authority, police force)?",
+  "gold": "SELECT ?light ?weather ?vt ?sev ?la ?force WHERE { res:Collision_202560C002220 :lightCondition ?light ; :weatherCondition ?weather ; :hasVehicle ?v ; :occurredIn/:partOf ?a . ?v :vehicleType ?vt ; :hasCasualty ?k . ?k :casualtySeverity ?sev . ?a :areaName ?la ; :partOf ?pf . ?pf :areaName ?force }",
+  "keys": [
+   "all"
+  ]
+ },
+ {
+  "id": "CQ-10",
+  "cq": "CQ13",
+  "q": "In each high-risk area (LSOA with at least 3 serious or fatal collisions), how many serious or fatal collisions involved a vulnerable road user? Which areas have the most?",
+  "gold": "SELECT ?lsoa (COUNT(DISTINCT ?c) AS ?n) WHERE { ?l a :HighRiskArea ; :areaCode ?lsoa . ?c a :KSICollision , :VRUCollision ; :occurredIn ?l } GROUP BY ?lsoa ORDER BY DESC(?n) ?lsoa",
+  "keys": [
+   "count",
+   "top4"
+  ]
+ }
+]

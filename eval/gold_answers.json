@@ -1,0 +1,531 @@
+{
+ "CQ-01": {
+  "cols": [
+   "vehicleType",
+   "n"
+  ],
+  "rows": [
+   [
+    "Car",
+    "382"
+   ],
+   [
+    "Pedal cycle",
+    "149"
+   ],
+   [
+    "Motorcycle over 500cc",
+    "86"
+   ],
+   [
+    "Motorcycle 125cc and under",
+    "63"
+   ],
+   [
+    "Van / Goods 3.5 tonnes mgw or under",
+    "39"
+   ],
+   [
+    "Motorcycle over 125cc and up to 500cc",
+    "26"
+   ],
+   [
+    "Motorcycle - unknown cc",
+    "10"
+   ],
+   [
+    "Taxi/Private hire car",
+    "8"
+   ],
+   [
+    "Goods 7.5 tonnes mgw and over",
+    "7"
+   ],
+   [
+    "Electric motorcycle",
+    "7"
+   ],
+   [
+    "Motorcycle 50cc and under",
+    "5"
+   ],
+   [
+    "Bus or coach (17 or more pass seats)",
+    "5"
+   ],
+   [
+    "Mobility scooter",
+    "3"
+   ],
+   [
+    "Goods over 3.5t. and under 7.5t",
+    "2"
+   ],
+   [
+    "Agricultural vehicle",
+    "2"
+   ],
+   [
+    "Other vehicle",
+    "2"
+   ],
+   [
+    "Unknown",
+    "2"
+   ],
+   [
+    "Personal powered transporter",
+    "1"
+   ],
+   [
+    "Goods vehicle - unknown weight",
+    "1"
+   ]
+  ],
+  "n_rows": 19,
+  "total": "520"
+ },
+ "CQ-02": {
+  "cols": [
+   "la",
+   "n"
+  ],
+  "rows": [
+   [
+    "Denbighshire",
+    "9"
+   ],
+   [
+    "Flintshire",
+    "8"
+   ],
+   [
+    "Wrexham",
+    "7"
+   ],
+   [
+    "Conwy",
+    "6"
+   ],
+   [
+    "Caerphilly",
+    "5"
+   ]
+  ],
+  "n_rows": 5
+ },
+ "CQ-03": {
+  "cols": [
+   "lsoa",
+   "force",
+   "n"
+  ],
+  "rows": [
+   [
+    "W01000121",
+    "North Wales",
+    "5"
+   ],
+   [
+    "W01000208",
+    "North Wales",
+    "5"
+   ],
+   [
+    "W01000403",
+    "North Wales",
+    "5"
+   ],
+   [
+    "W01001971",
+    "North Wales",
+    "5"
+   ],
+   [
+    "W01000105",
+    "North Wales",
+    "4"
+   ],
+   [
+    "W01000203",
+    "North Wales",
+    "4"
+   ],
+   [
+    "W01001524",
+    "Gwent",
+    "4"
+   ],
+   [
+    "W01001662",
+    "Gwent",
+    "4"
+   ],
+   [
+    "W01001980",
+    "Gwent",
+    "4"
+   ],
+   [
+    "W01000009",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000040",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000056",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000070",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000083",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000103",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000119",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000192",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000223",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000247",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000248",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000258",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000301",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01000323",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01001401",
+    "Gwent",
+    "3"
+   ],
+   [
+    "W01001465",
+    "Gwent",
+    "3"
+   ],
+   [
+    "W01001486",
+    "Gwent",
+    "3"
+   ],
+   [
+    "W01001581",
+    "Gwent",
+    "3"
+   ],
+   [
+    "W01001632",
+    "Gwent",
+    "3"
+   ],
+   [
+    "W01001926",
+    "North Wales",
+    "3"
+   ],
+   [
+    "W01001930",
+    "North Wales",
+    "3"
+   ]
+  ],
+  "n_rows": 30
+ },
+ "CQ-04": {
+  "cols": [
+   "man",
+   "n"
+  ],
+  "rows": [
+   [
+    "Going ahead",
+    "43"
+   ],
+   [
+    "Turning right",
+    "14"
+   ],
+   [
+    "Reversing",
+    "13"
+   ],
+   [
+    "Turning left",
+    "3"
+   ],
+   [
+    "Overtaking on nearside (passengers side nearest kerb)",
+    "2"
+   ],
+   [
+    "Moving off",
+    "2"
+   ],
+   [
+    "Slowing or stopping",
+    "2"
+   ],
+   [
+    "Overtaking stationary vehicle on its offside",
+    "1"
+   ],
+   [
+    "Changing lane to left",
+    "1"
+   ]
+  ],
+  "n_rows": 9
+ },
+ "CQ-05": {
+  "cols": [
+   "force",
+   "cond",
+   "n"
+  ],
+  "rows": [
+   [
+    "North Wales",
+    "daylight",
+    "181"
+   ],
+   [
+    "North Wales",
+    "dark",
+    "72"
+   ],
+   [
+    "Gwent",
+    "dark",
+    "45"
+   ],
+   [
+    "Gwent",
+    "daylight",
+    "134"
+   ]
+  ],
+  "n_rows": 4
+ },
+ "CQ-06": {
+  "cols": [
+   "ksi",
+   "withVRU"
+  ],
+  "rows": [
+   [
+    "179",
+    "113"
+   ]
+  ],
+  "n_rows": 1
+ },
+ "CQ-07": {
+  "cols": [
+   "cls",
+   "n"
+  ],
+  "rows": [
+   [
+    "Pedestrian",
+    "18"
+   ],
+   [
+    "Driver or rider",
+    "15"
+   ],
+   [
+    "Passenger",
+    "7"
+   ]
+  ],
+  "n_rows": 3
+ },
+ "CQ-08": {
+  "cols": [
+   "n"
+  ],
+  "rows": [
+   [
+    "57"
+   ]
+  ],
+  "n_rows": 1
+ },
+ "CQ-09": {
+  "cols": [
+   "light",
+   "weather",
+   "vt",
+   "sev",
+   "la",
+   "force"
+  ],
+  "rows": [
+   [
+    "Darkness - lights lit",
+    "Raining no high winds",
+    "Car",
+    "Serious",
+    "Gwynedd",
+    "North Wales"
+   ]
+  ],
+  "n_rows": 1
+ },
+ "CQ-10": {
+  "cols": [
+   "lsoa",
+   "n"
+  ],
+  "rows": [
+   [
+    "W01001971",
+    "5"
+   ],
+   [
+    "W01001662",
+    "4"
+   ],
+   [
+    "W01000040",
+    "3"
+   ],
+   [
+    "W01000208",
+    "3"
+   ],
+   [
+    "W01001524",
+    "3"
+   ],
+   [
+    "W01001980",
+    "3"
+   ],
+   [
+    "W01000009",
+    "2"
+   ],
+   [
+    "W01000056",
+    "2"
+   ],
+   [
+    "W01000103",
+    "2"
+   ],
+   [
+    "W01000105",
+    "2"
+   ],
+   [
+    "W01000121",
+    "2"
+   ],
+   [
+    "W01000203",
+    "2"
+   ],
+   [
+    "W01001401",
+    "2"
+   ],
+   [
+    "W01001486",
+    "2"
+   ],
+   [
+    "W01001581",
+    "2"
+   ],
+   [
+    "W01000070",
+    "1"
+   ],
+   [
+    "W01000083",
+    "1"
+   ],
+   [
+    "W01000119",
+    "1"
+   ],
+   [
+    "W01000192",
+    "1"
+   ],
+   [
+    "W01000248",
+    "1"
+   ],
+   [
+    "W01000301",
+    "1"
+   ],
+   [
+    "W01000403",
+    "1"
+   ],
+   [
+    "W01001465",
+    "1"
+   ],
+   [
+    "W01001632",
+    "1"
+   ],
+   [
+    "W01001926",
+    "1"
+   ],
+   [
+    "W01001930",
+    "1"
+   ]
+  ],
+  "n_rows": 26
+ }
+}
