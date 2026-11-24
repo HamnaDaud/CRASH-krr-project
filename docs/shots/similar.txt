@@ -1,0 +1,64 @@
+types of query collision: [('Collision', 'inferred:R1'), ('FatalCollision', 'stored'), ('KSICollision', 'inferred:R1'), ('VRUCollision', 'inferred:R3')]
+attrs: {'collisionDate': '2025-01-30', 'junctionType': 'T or staggered junction', 'lightCondition': 'Darkness - lights lit', 'roadClass': 'A', 'roadType': 'Single carriageway', 'speedLimit': '60', 'surfaceCondition': 'Dry', 'weatherCondition': 'Fine no high winds'}
+{
+ "query_collision": "Collision_202560C013816",
+ "query_types": [
+  [
+   "Collision",
+   "inferred:R1"
+  ],
+  [
+   "FatalCollision",
+   "stored"
+  ],
+  [
+   "KSICollision",
+   "inferred:R1"
+  ],
+  [
+   "VRUCollision",
+   "inferred:R3"
+  ]
+ ],
+ "neighbours": [
+  {
+   "collision": "Collision_202560C070939",
+   "cosine": 0.932,
+   "label": "predicted-similar",
+   "rule_guarantee": "KSICollision [KSICollision/VRUCollision]",
+   "shared_attributes": {
+    "roadType": "Single carriageway",
+    "speedLimit": "60",
+    "surfaceCondition": "Dry",
+    "weatherCondition": "Fine no high winds"
+   }
+  },
+  {
+   "collision": "Collision_202560C039085",
+   "cosine": 0.926,
+   "label": "predicted-similar",
+   "rule_guarantee": "KSICollision [KSICollision/VRUCollision]",
+   "shared_attributes": {
+    "junctionType": "T or staggered junction",
+    "roadClass": "A",
+    "roadType": "Single carriageway",
+    "speedLimit": "60",
+    "surfaceCondition": "Dry",
+    "weatherCondition": "Fine no high winds"
+   }
+  },
+  {
+   "collision": "Collision_2025610022625",
+   "cosine": 0.924,
+   "label": "predicted-similar",
+   "rule_guarantee": "KSICollision [KSICollision/VRUCollision]",
+   "shared_attributes": {
+    "roadClass": "A",
+    "surfaceCondition": "Dry",
+    "weatherCondition": "Fine no high winds"
+   }
+  }
+ ]
+}
+PREDICT surfaceCondition for Collision_202560C013816 [{'value': 'Dry', 'score': -1.034, 'label': 'predicted (not a stored fact)'}, {'value': 'Wet or damp', 'score': -1.042, 'label': 'predicted (not a stored fact)'}, {'value': 'Frost or ice', 'score': -1.17, 'label': 'predicted (not a stored fact)'}]
+actual stored value: Dry

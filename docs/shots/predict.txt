@@ -1,0 +1,8 @@
+Collision_202560C034542      lightCondition     held-out TRUE=Daylight                     predicted top-3=['Daylight', 'Darkness - lights lit', 'Darkness - no lighting'] HIT  [predicted, not a stored fact]
+Collision_202560C152639      roadClass          held-out TRUE=B                            predicted top-3=['A', 'Unclassified', 'B'] miss  [predicted, not a stored fact]
+Collision_2025610002425      weatherCondition   held-out TRUE=Fine no high winds           predicted top-3=['Fine no high winds', 'Raining no high winds', 'Raining + high winds'] HIT  [predicted, not a stored fact]
+Collision_202560C085354      weatherCondition   held-out TRUE=Fine no high winds           predicted top-3=['Fine no high winds', 'Raining no high winds', 'Snowing no high winds'] HIT  [predicted, not a stored fact]
+Collision_202560C154044      roadClass          held-out TRUE=A                            predicted top-3=['A', 'B', 'Motorway'] HIT  [predicted, not a stored fact]
+Collision_202560C070658      lightCondition     held-out TRUE=Daylight                     predicted top-3=['Daylight', 'Darkness - lights lit', 'Darkness - no lighting'] HIT  [predicted, not a stored fact]
+Collision_202560C132765      lightCondition     held-out TRUE=Daylight                     predicted top-3=['Daylight', 'Darkness - lights lit', 'Darkness - no lighting'] HIT  [predicted, not a stored fact]
+Collision_202560C136483      weatherCondition   held-out TRUE=Fine no high winds           predicted top-3=['Fine no high winds', 'Raining no high winds', 'Raining + high winds'] HIT  [predicted, not a stored fact]
