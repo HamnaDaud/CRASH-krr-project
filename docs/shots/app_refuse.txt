@@ -1,0 +1,8 @@
+Loading graph and applying rules R1-R8 ...
+{'stored_triples': 31036, 'inferred_triples': 4651, 'inferred_by_rule': {'R4': 1092, 'R6': 1491, 'R1': 864, 'R3': 520, 'R5': 510, 'R8': 144, 'R7': 30}}
+
+Q: Was alcohol or driver fatigue the cause of collision 202560C002220?
+Status: insufficient_evidence
+--- Answer (AI-written) ---
+INSUFFICIENT_EVIDENCE: The question asks about causes (alcohol or driver fatigue), which are not represented in the provided schema. No answer is given rather than guessing.
+Labels: [stored] fact in the graph | [inferred] derived by rule R1-R8 | [predicted] TransE prediction | AI-written = the answer text

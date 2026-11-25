@@ -1,0 +1,66 @@
+Loading graph and applying rules R1-R8 ...
+{'stored_triples': 31036, 'inferred_triples': 4651, 'inferred_by_rule': {'R4': 1092, 'R6': 1491, 'R1': 864, 'R3': 520, 'R5': 510, 'R8': 144, 'R7': 30}}
+
+Q: For collision 202560C002220, what are its vehicles, casualties, severity, road and weather conditions and administrative areas (LSOA, local authority, police force)?
+Status: answered
+--- SPARQL (retrieval) ---
+PREFIX : <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+SELECT DISTINCT
+  ?collisionID
+  (GROUP_CONCAT(DISTINCT ?vehicleType; SEPARATOR=",") AS ?vehicleTypes)
+  (GROUP_CONCAT(DISTINCT ?casualtyID; SEPARATOR=",") AS ?casualtyIDs)
+  (GROUP_CONCAT(DISTINCT ?casualtySeverity; SEPARATOR=",") AS ?casualtySeverities)
+  ?roadClass
+  ?roadType
+  ?lightCondition
+  ?weatherCondition
+  ?surfaceCondition
+  ?lsoaCode
+  ?localAuthorityName
+  ?policeForceName
+  (GROUP_CONCAT(DISTINCT STRAFTER(STR(?c),"resource/" ); SEPARATOR=",") AS ?evidence)
+WHERE {
+  BIND(res:Collision_202560C002220 AS ?c)
+  BIND(STRAFTER(STR(?c),"resource/") AS ?collisionID)
+  ?c a :Collision .
+  OPTIONAL { ?c :hasVehicle ?v . ?v :vehicleType ?vehicleType }
+  OPTIONAL {
+    ?c :hasVehicle ?v2 .
+    ?v2 :hasCasualty ?cas .
+    BIND(STRAFTER(STR(?cas),"resource/") AS ?casualtyID)
+    ?cas :casualtySeverity ?casualtySeverity
+  }
+  OPTIONAL { ?c :roadClass ?roadClass }
+  OPTIONAL { ?c :roadType ?roadType }
+  OPTIONAL { ?c :lightCondition ?lightCondition }
+  OPTIONAL { ?c :weatherCondition ?weatherCondition }
+  OPTIONAL { ?c :surfaceCondition ?surfaceCondition }
+  OPTIONAL {
+    ?c :occurredIn ?lsoa .
+    ?lsoa :areaCode ?lsoaCode .
+    ?lsoa :partOf ?la .
+    ?la a :LocalAuthority ; :areaName ?localAuthorityName .
+    ?lsoa :partOf ?pf .
+    ?pf a :PoliceForce ; :areaName ?policeForceName .
+  }
+  BIND(?c AS ?collision)
+}
+GROUP BY ?collisionID ?roadClass ?roadType ?lightCondition ?weatherCondition ?surfaceCondition ?lsoaCode ?localAuthorityName ?policeForceName
+LIMIT 500
+--- Evidence rows (1; first 8) ---
+  [inferred] collisionID=Collision_202560C002220 | vehicleTypes=Car | casualtyIDs=Casualty_202560C002220_1 | casualtySeverities=Serious | roadClass=Unclassified | roadType=Single carriageway | lightCondition=Darkness - lights lit | weatherCondition=Raining no high winds | surfaceCondition=Wet or damp | lsoaCode=W01000105 | localAuthorityName=Gwynedd | policeForceName=North Wales | evidence=Collision_202560C002220
+--- Answer (AI-written) ---
+- **Collision ID:** Collision_202560C002220 [inferred] (Collision_202560C002220)  
+- **Vehicle(s):** Car [inferred] (Collision_202560C002220)  
+- **Casualty ID(s):** Casualty_202560C002220_1 [inferred] (Collision_202560C002220)  
+- **Casualty severity:** Serious [inferred] (Collision_202560C002220)  
+- **Road class:** Unclassified [inferred] (Collision_202560C002220)  
+- **Road type:** Single carriageway [inferred] (Collision_202560C002220)  
+- **Light condition:** Darkness – lights lit [inferred] (Collision_202560C002220)  
+- **Weather condition:** Raining no high winds [inferred] (Collision_202560C002220)  
+- **Surface condition:** Wet or damp [inferred] (Collision_202560C002220)  
+- **LSOA code:** W01000105 [inferred] (Collision_202560C002220)  
+- **Local authority:** Gwynedd [inferred] (Collision_202560C002220)  
+- **Police force:** North Wales [inferred] (Collision_202560C002220)
+Labels: [stored] fact in the graph | [inferred] derived by rule R1-R8 | [predicted] TransE prediction | AI-written = the answer text

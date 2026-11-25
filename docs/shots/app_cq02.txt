@@ -1,0 +1,39 @@
+Loading graph and applying rules R1-R8 ...
+{'stored_triples': 31036, 'inferred_triples': 4651, 'inferred_by_rule': {'R4': 1092, 'R6': 1491, 'R1': 864, 'R3': 520, 'R5': 510, 'R8': 144, 'R7': 30}}
+
+Q: Which five local authorities had the most serious or fatal collisions on A roads in wet or icy conditions, and how many did each have?
+Status: answered
+--- SPARQL (retrieval) ---
+PREFIX : <https://crash.example.org/ontology#>
+PREFIX res: <https://crash.example.org/resource/>
+SELECT ?localAuthorityName (COUNT(DISTINCT ?c) AS ?collisionCount) ?total WHERE {
+  ?c a :KSICollision ;
+     :roadClass "A" ;
+     :surfaceCondition ?surf ;
+     :occurredIn ?lsoa .
+  FILTER(?surf IN ("Wet or damp", "Frost or ice"))
+  ?lsoa :partOf ?la .
+  ?la a :LocalAuthority ;
+      :areaName ?localAuthorityName .
+  { SELECT (COUNT(DISTINCT ?cAll) AS ?total) WHERE { ?cAll a :KSICollision } }
+}
+GROUP BY ?localAuthorityName ?total
+ORDER BY DESC(?collisionCount)
+LIMIT 5
+--- Evidence rows (5; first 8) ---
+  [inferred] localAuthorityName=Denbighshire | collisionCount=9 | total=432
+  [inferred] localAuthorityName=Flintshire | collisionCount=8 | total=432
+  [inferred] localAuthorityName=Wrexham | collisionCount=7 | total=432
+  [inferred] localAuthorityName=Conwy | collisionCount=6 | total=432
+  [inferred] localAuthorityName=Caerphilly | collisionCount=5 | total=432
+--- Answer (AI-written) ---
+The five local authorities with the highest numbers of serious or fatal KSI collisions on A‑class roads when the surface was **wet or damp** or **frost or ice** are:
+
+- **Denbighshire** – 9 collisions [inferred] (Collision_… row)  
+- **Flintshire** – 8 collisions [inferred] (Collision_… row)  
+- **Wrexham** – 7 collisions [inferred] (Collision_… row)  
+- **Conwy** – 6 collisions [inferred] (Collision_… row)  
+- **Caerphilly** – 5 collisions [inferred] (Collision_… row)
+
+These counts come from the query result showing the top 5 localAuthorityName values with their respective collisionCount.
+Labels: [stored] fact in the graph | [inferred] derived by rule R1-R8 | [predicted] TransE prediction | AI-written = the answer text
