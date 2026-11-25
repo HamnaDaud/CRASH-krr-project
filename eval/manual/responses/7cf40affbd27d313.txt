@@ -1,0 +1,9 @@
+The five local authorities with the most serious or fatal (KSI) collisions on A roads in wet/damp or frost/ice conditions are [inferred]:
+
+1. Denbighshire: 9 collisions, e.g. Collision_202560C100420, Collision_202560C053155, Collision_202560C000676 [inferred]
+2. Flintshire: 8 collisions, e.g. Collision_202560C185158, Collision_202560C031643, Collision_202560C054856 [inferred]
+3. Wrexham: 7 collisions, e.g. Collision_202560C081440, Collision_202560C053534, Collision_202560C023465 [inferred]
+4. Conwy: 6 collisions, e.g. Collision_202560C185825, Collision_202560C010235, Collision_202560C184407 [inferred]
+5. Caerphilly: 5 collisions, e.g. Collision_2025610038125, Collision_2025610000825, Collision_2025610012725 [inferred]
+
+All five rows are inferred, via the KSICollision definition (fatal or serious) and the transitive partOf rule linking areas to local authorities.

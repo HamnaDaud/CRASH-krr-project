@@ -1,0 +1,12 @@
+The context gives collision counts per vehicle type, with 19 vehicle types in total. It does not give one overall count of distinct vulnerable road user (VRU) collisions. A collision can involve several vehicle types, so the per-type counts cannot simply be added up.
+
+Most common vehicle types in VRU collisions, all [inferred]:
+- Car: 382 collisions, 406 vehicles. Examples: Collision_202560C026762, Collision_202560C117717, Collision_2025610011425.
+- Pedal cycle: 149 collisions, 154 vehicles. Examples: Collision_202560C026762, Collision_202560C117717, Collision_202560C116958.
+- Motorcycle over 500cc: 86 collisions, 92 vehicles. Examples: Collision_2025610011425, Collision_2025610017625, Collision_202560C126741.
+- Motorcycle 125cc and under: 63 collisions, 63 vehicles.
+- Van / Goods 3.5 tonnes mgw or under: 39 collisions, 39 vehicles.
+
+Rarer types include Mobility scooter (3, e.g. Collision_2025610049125) and Personal powered transporter (1, Collision_2025610016325).
+
+The VRU classification comes from rules R3 and R4.

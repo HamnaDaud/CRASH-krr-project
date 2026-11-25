@@ -1,0 +1,16 @@
+Across the 15 manoeuvre and light-condition rows, 81 pedestrians were killed or seriously hurt. 55 of them were in daylight and 26 in darkness. The two groups of rows are tagged differently, so the tags are given below.
+
+Daylight (55 pedestrians):
+- Going ahead: 25 [inferred]. Examples: Collision_2025610031925, Collision_2025610019725, Collision_2025610001425.
+- Reversing: 12 [inferred]. Examples: Collision_2025610004125, Collision_2025610015825.
+- Turning right: 11 [inferred]. Examples: Collision_2025610004925, Collision_202560C182312.
+- Moving off: 2 and Overtaking on nearside: 2 [inferred].
+- Slowing or stopping, Overtaking stationary vehicle on its offside and Changing lane to left: 1 each [stored]. Examples: Collision_2025610023425, Collision_2025610013925, Collision_2025610003525.
+
+Darkness (26 pedestrians):
+- Going ahead, lights lit: 10 [inferred] (e.g. Collision_2025610016925).
+- Going ahead, no lighting: 7 pedestrians in 6 collisions [inferred] (e.g. Collision_202560C187462).
+- Turning left, lights lit: 3 and Turning right, lights lit: 3 [inferred].
+- Slowing or stopping and Going ahead with lighting unknown: 1 each, and Reversing with lights unlit: 1 [stored]. Examples: Collision_202560C190496, Collision_202560C198302, Collision_2025610049625.
+
+Going ahead in daylight is the most common single case.

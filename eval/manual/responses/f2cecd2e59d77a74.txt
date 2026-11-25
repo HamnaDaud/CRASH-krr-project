@@ -1,0 +1,3 @@
+In the Gwent police area there were 179 serious or fatal collisions, and 113 of them involved a vulnerable road user (a pedestrian, cyclist or motorcyclist) [inferred]. Example collisions from the evidence list: Collision_2025610009325, Collision_2025610027825, Collision_2025610034325.
+
+These counts come from a single result row. They are inferred through the KSICollision rule (fatal or serious), the VRUCollision rule, and the transitive partOf rule linking areas to the police force. The evidence list holds all 179 collision IDs and does not mark which 113 involved a vulnerable road user.

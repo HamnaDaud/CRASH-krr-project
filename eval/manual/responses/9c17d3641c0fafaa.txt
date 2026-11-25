@@ -1,0 +1,10 @@
+26 high-risk areas (LSOAs) had at least one serious or fatal collision involving a vulnerable road user [inferred].
+
+Areas with the most:
+- W01001971: 5 collisions, e.g. Collision_202560C024981, Collision_202560C193626, Collision_202560C015671 [inferred]
+- W01001662: 4 collisions, e.g. Collision_2025610001825, Collision_2025610009125, Collision_2025610052625 [inferred]
+- Four areas with 3 each: W01000208 (e.g. Collision_202560C115191), W01001524 (e.g. Collision_2025610032025), W01000040 (e.g. Collision_202560C131039), W01001980 (e.g. Collision_2025610012325) [inferred]
+
+Eleven further areas have 2 each (e.g. W01001401 with Collision_2025610024925 and Collision_2025610034425), and the remaining nine have 1 each (e.g. W01001930 with Collision_202560C197076) [inferred].
+
+All rows are inferred from the rules defining KSICollision, VRUCollision (a collision involving a pedestrian, cyclist or motorcyclist) and HighRiskArea (at least 3 KSI collisions).

@@ -1,0 +1,5 @@
+I can't list the high-risk LSOAs or count them, because I don't have the 2025 STATS19 data for these forces and won't invent LSOA codes.
+
+How to get it: filter to fatal or serious collisions, group by LSOA of accident location, keep those with 3 or more, and attach the police force for each (North Wales Police, force code 62, or Gwent Police, force code 60). Counting rows gives the number of high-risk areas, and sorting descending shows which have the most.
+
+For perspective, in a year with only a few hundred serious or fatal collisions across two forces, spread across roughly 1,900 LSOAs, only a small handful of LSOAs would normally reach 3. They would likely be in busier urban areas or on major roads. That is a general expectation, not a data result.

@@ -1,0 +1,6 @@
+Serious or fatal (KSI) collisions by police force area and light condition (2 rows in total) [inferred]:
+
+- Gwent: 45 in darkness and 134 in daylight [inferred]. Examples: Collision_2025610009325, Collision_2025610027825, Collision_2025610034325.
+- North Wales: 72 in darkness and 181 in daylight [inferred]. Examples: Collision_202560C023465, Collision_202560C174287, Collision_202560C170293.
+
+In both forces daylight collisions outnumber dark ones. The evidence lists show only the collision IDs, not which ones are dark or daylight, so the examples above are drawn from each force's combined list. These figures are inferred through the KSICollision definition (fatal or serious) and the transitive partOf rule linking areas to police forces.

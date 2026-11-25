@@ -1,0 +1,9 @@
+Collision_202560C002220 involved one car and one casualty [inferred].
+
+- Vehicle: Vehicle_202560C002220_1, a Car [inferred].
+- Casualty: Casualty_202560C002220_1, a Pedestrian with Serious severity [inferred].
+- Road: Unclassified road, Single carriageway [inferred].
+- Conditions: Raining no high winds, Darkness - lights lit, road surface Wet or damp [inferred].
+- Area: LSOA W01000105, local authority Gwynedd, police force North Wales [inferred].
+
+Evidence: Collision_202560C002220.

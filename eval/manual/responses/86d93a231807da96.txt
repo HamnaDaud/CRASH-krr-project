@@ -1,0 +1,5 @@
+I can't provide counts because I don't have the 2025 STATS19 records for North Wales and Gwent.
+
+Method: take casualties with casualty_class = pedestrian and severity fatal or serious, join to the collision and vehicle tables, then tabulate vehicle_manoeuvre (for example going ahead, turning, reversing, slowing or stopping) and light_conditions (daylight versus darkness, with or without street lights).
+
+In Great Britain generally, most serious pedestrian collisions involve a vehicle going ahead, with turning and reversing manoeuvres a smaller share. Pedestrian deaths are over-represented in darkness, especially in winter evenings, while serious injuries are more often in daylight overall. Those are national patterns and not figures for these two forces; the actual numbers need the data.

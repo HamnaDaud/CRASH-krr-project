@@ -1,0 +1,6 @@
+Serious or fatal collisions by light condition and police force [inferred]:
+
+- North Wales: 72 in the dark and 181 in daylight. Examples: Collision_202560C062389, Collision_202560C111479, Collision_202560C150341.
+- Gwent: 45 in the dark and 134 in daylight. Examples: Collision_2025610047425, Collision_2025610004125, Collision_2025610011725.
+
+"Dark" means any light condition starting with "Darkness", and "daylight" means exactly "Daylight". The context does not give the evidence column split between dark and daylight collisions, so I cannot say which IDs belong to which group.

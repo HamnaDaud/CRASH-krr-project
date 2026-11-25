@@ -1,0 +1,7 @@
+26 high-risk LSOAs have at least one serious or fatal collision involving a vulnerable road user [inferred]. The counts are:
+
+- W01001971: 5, the most [inferred]. Collision_202560C015671, Collision_202560C048362, Collision_202560C193626 and others.
+- W01001662: 4 [inferred]. Collision_2025610053025, Collision_2025610052625 and others.
+- 3 each [inferred]: W01001524 (Collision_2025610047425), W01000208 (Collision_202560C100420), W01000040 (Collision_202560C062160) and W01001980 (Collision_2025610022125).
+- 2 each [inferred]: W01000056, W01001581, W01000203, W01000121, W01001401, W01001486, W01000103, W01000105 and W01000009. An example is W01000105 with Collision_202560C091294 and Collision_202560C002220.
+- 1 each [inferred]: the remaining 11 LSOAs, e.g. W01001465 (Collision_2025610014825) and W01001632 (Collision_2025610001425).

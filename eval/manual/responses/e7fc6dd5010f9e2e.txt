@@ -1,0 +1,3 @@
+I can't answer that from this data. The dataset I'm working with covers 2025 collisions in the North Wales and Gwent police areas, so it doesn't include Greater London or the year 2023. Greater London is covered by the Metropolitan and City of London police forces.
+
+For that figure you'd need the 2023 STATS19 national data, or Transport for London and DfT annual reports, filtered to police forces 1 and 48, first road class A and fatal severity. I don't have a reliable figure from memory, so I won't guess a number.

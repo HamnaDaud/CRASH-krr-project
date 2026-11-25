@@ -1,0 +1,15 @@
+There are 30 high-risk LSOAs, each with at least three serious or fatal collisions [inferred]. All 30 are covered by two police forces.
+
+Most collisions: four LSOAs in North Wales each have 5 [inferred]:
+- W01000403: Collision_202560C184751, Collision_202560C068767, Collision_202560C116616 and others.
+- W01000121: Collision_202560C067082, Collision_202560C105730 and others.
+- W01000208: Collision_202560C100420, Collision_202560C167039 and others.
+- W01001971: Collision_202560C015671, Collision_202560C048362 and others.
+
+Next come 4 collisions each [inferred]:
+- Gwent: W01001662 (Collision_2025610053025), W01001980 (Collision_2025610015425) and W01001524 (Collision_2025610047425).
+- North Wales: W01000105 (Collision_202560C002220) and W01000203 (Collision_202560C031158).
+
+The remaining 21 LSOAs each have 3 collisions [inferred]. By police force, Gwent covers 8 of the 30 and North Wales covers 22. For example, Gwent's W01001401 has Collision_2025610034425 and North Wales' W01001930 has Collision_202560C032137.
+
+Each LSOA's police force is shown in the table.

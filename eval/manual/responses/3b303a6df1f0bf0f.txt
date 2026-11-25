@@ -1,0 +1,5 @@
+I don't have the 2025 STATS19 records for North Wales and Gwent, so I can't state the number of vulnerable-road-user collisions or exact vehicle counts.
+
+To compute it: join the collision, vehicle and casualty tables. Flag a collision as vulnerable-road-user if a casualty is a pedestrian (casualty_type 0), cyclist (1) or motorcyclist (2, 3, 4, 5, 23, 97, 103 to 106), or if a vehicle is a pedal cycle (1) or motorcycle (2 to 5, 23, 97). Count distinct collision references, then count vehicle_type within those collisions.
+
+Typically the most common vehicle type involved would be cars (type 9), followed by motorcycles of various sizes and pedal cycles, with goods vehicles and buses less often. That pattern is typical for Great Britain; the specific counts for these two forces need the data.

@@ -1,0 +1,5 @@
+I can't say how many collisions there were or name the fastest speed limits, since I don't have the 2025 STATS19 data for these forces.
+
+Method: select collisions with speed_limit of 50, 60 or 70 mph, with a casualty who was a motorcyclist (casualty_type 2 to 5, 23, 97, 103 to 106) and casualty_severity fatal or serious, then count distinct collision references and read the maximum speed_limit.
+
+In Wales most rural A and B roads carry a 60 mph national speed limit, and 70 mph applies only on dual carriageways such as the A55 and the A449, A465 and A4042 stretches, plus the M4 and M48 in Gwent. So the fastest cases would be 70 mph on those roads, with most others at 60 mph, though I can't confirm that from the data.

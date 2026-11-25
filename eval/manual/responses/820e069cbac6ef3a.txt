@@ -1,0 +1,5 @@
+I don't have the STATS19 2025 casualty data for North Wales and Gwent, so I can't give actual counts by casualty class.
+
+To get them: filter casualties to age 0-15 (age_of_casualty or age_band 1 to 3), casualty_severity fatal or serious, restricted to police forces 60 and 62, then count by casualty_class (1 driver or rider, 2 passenger, 3 pedestrian).
+
+Nationally, child KSI casualties are most often pedestrians (children hit while crossing or near schools), then car passengers, then pedal cyclists, who are counted as drivers or riders. Across two forces the totals are small, probably in the tens, so one or two cases can change the picture. That is an expectation, not a finding; I can't verify it without the data.

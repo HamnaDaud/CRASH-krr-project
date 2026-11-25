@@ -1,0 +1,3 @@
+I can't answer this from the data in scope. The dataset covers 2025 collisions in North Wales and Gwent only, and it neither covers England nor 2019.
+
+For that, use the national DfT STATS19 2019 collision file: filter accident_severity = 2 (serious) if you mean serious only, restrict to English local authority districts, count by local_authority_ons_district and take the top five. Large, populous authorities with major road networks, such as Birmingham, Leeds, Cornwall, Kent-area districts or Northumberland, typically rank high, but I can't give a verified top five or counts from memory, so I won't invent them.

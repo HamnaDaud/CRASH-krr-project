@@ -1,0 +1,9 @@
+I can't give per-area counts because I don't have the STATS19 2025 data for North Wales and Gwent, and I don't want to fabricate LSOA codes or numbers.
+
+Method: 
+1. Keep fatal or serious collisions (severity 1 or 2).
+2. Count them by lsoa_of_accident_location and keep LSOAs with 3 or more (the high-risk areas).
+3. Within each, count collisions involving a pedestrian, cyclist or motorcyclist (by casualty_type or vehicle_type).
+4. Sort descending to see which areas have the most.
+
+Expect the highest counts in urban, town-centre or busy-corridor LSOAs, such as in Newport, Cardiff-border areas of Caerphilly, Wrexham, Rhyl or Llandudno, but that is a guess, not a finding. If you share the data or the query results, I can interpret them.

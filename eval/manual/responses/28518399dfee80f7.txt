@@ -1,0 +1,5 @@
+I don't have the 2025 STATS19 records for Gwent, so I can't give exact figures without making them up.
+
+To get the answer from the data: filter collisions to police_force = Gwent, keep accident_severity 1 (fatal) or 2 (serious), and count them. Then join to the casualty table and count the collisions with at least one pedestrian (casualty_type 0), cyclist (1) or motorcyclist (2-5, 23, 97, 103-106) casualty, or vehicle types matching these. Divide the second figure by the first to get the vulnerable-road-user share.
+
+For context only, vulnerable road users are usually around 40-50% of serious or fatal collisions in Great Britain, so expect something in that region, but treat it as an expectation, not a result.

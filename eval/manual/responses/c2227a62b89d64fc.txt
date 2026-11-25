@@ -1,0 +1,3 @@
+I can't tell. I don't have the STATS19 2025 record for collision 202560C002220, and STATS19 doesn't record a single cause as such. It holds contributory factors, which include 'impairment or distraction' factors such as driver or rider impaired by alcohol (and drugs), and driver fatigue, as the reporting officer's opinion.
+
+To check, look up that reference in the contributory factors table. Alcohol appears as factor 301-type codes (impaired by alcohol), and fatigue as 'driver/rider fatigue' (code 306). Also check the vehicle table for any breath-test results. If no such factors are listed, the data doesn't indicate alcohol or fatigue, though that doesn't prove it wasn't a cause.

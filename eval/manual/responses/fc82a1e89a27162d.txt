@@ -1,0 +1,1 @@
+{"answerable": false, "reason": "The graph has no contributory factors, causes, alcohol or fatigue data.", "sparql": ""}

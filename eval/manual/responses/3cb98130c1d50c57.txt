@@ -1,0 +1,12 @@
+The context does not give a single total of distinct vulnerable-road-user (VRU) collisions. It gives 19 vehicle-type rows, and a collision can appear under more than one type, so the rows cannot be added together. All rows are [inferred], via the VRUCollision rule (a collision involving a pedestrian, cyclist or motorcyclist).
+
+Most common vehicle types (collisions / vehicles) [inferred]:
+- Car: 382 collisions, 406 vehicles (e.g. Collision_202560C102240, Collision_2025610051925, Collision_2025610010525)
+- Pedal cycle: 149 / 154 (e.g. Collision_2025610020425, Collision_202560C173035)
+- Motorcycle over 500cc: 86 / 92 (e.g. Collision_202560C055896, Collision_202560C071126)
+- Motorcycle 125cc and under: 63 / 63 (e.g. Collision_202560C173199)
+- Van / Goods 3.5 tonnes mgw or under: 39 / 39 (e.g. Collision_2025610008625)
+- Motorcycle over 125cc and up to 500cc: 26 / 26 (e.g. Collision_202560C151258)
+- Motorcycle, unknown cc: 10 / 11
+
+Smaller groups include Taxi/Private hire car (8), Goods 7.5 tonnes and over (7), Electric motorcycle (7) and Bus or coach (5) [inferred].

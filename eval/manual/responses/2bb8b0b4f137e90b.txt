@@ -1,0 +1,7 @@
+40 children aged 0-15 were killed or seriously hurt, split by casualty class as follows [inferred]:
+
+- Pedestrian: 18, for example Casualty_2025610026525_1 in Collision_2025610026525 and Casualty_202560C170725_1 in Collision_202560C170725.
+- Driver or rider: 15, for example Casualty_202560C136483_1 in Collision_202560C136483 and Casualty_2025610038325_1 in Collision_2025610038325.
+- Passenger: 7, for example Casualty_202560C113942_5 in Collision_202560C113942 and Casualty_2025610047325_2 in Collision_2025610047325.
+
+The Passenger group spans 5 collisions, because some collisions have more than one child casualty (for example Collision_202560C198289 and Collision_202560C148872). The context does not split these counts by Fatal versus Serious.

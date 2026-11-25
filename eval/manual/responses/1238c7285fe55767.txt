@@ -1,0 +1,1 @@
+{"answerable": false, "reason": "The graph only holds 2025 collisions for North Wales and Gwent, not English local authorities in 2019.", "sparql": ""}

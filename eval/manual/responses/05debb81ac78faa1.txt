@@ -1,0 +1,8 @@
+The query returned 62 rows in total, and each row is one motorcyclist casualty killed or seriously hurt on a road with a 50 mph or higher limit. Only the first 40 rows are shown, so I cannot give an exact number of distinct collisions. A collision with two casualties appears twice.
+
+- The first 40 rows cover 37 distinct collisions [inferred]. Three of them (Collision_202560C048362, Collision_202560C067082 and Collision_202560C089178) have two casualties each.
+- The fastest roads have a 70 mph limit. Ten collisions are listed at 70 mph [inferred], for example Collision_202560C024981 (Serious), Collision_202560C158594 (Fatal), Collision_2025610009325 (Fatal) and Collision_2025610038725 (Serious).
+- All other shown rows are at 60 mph [inferred], for example Collision_202560C013816 (Fatal) and Collision_202560C031158 (Fatal).
+- Rows are ordered by speed limit, so no 70 mph rows can be hidden among the 22 rows not shown.
+
+The Motorcyclist class and the collision-to-casualty link come from inference rules R4 and R6.

@@ -1,0 +1,9 @@
+The five local authorities with the most serious or fatal collisions on A roads in wet or icy conditions (road surface "Wet or damp" or "Frost or ice") are, all [inferred]:
+
+1. Denbighshire: 9 collisions, e.g. Collision_202560C000676, Collision_202560C100420, Collision_202560C031158.
+2. Flintshire: 8, e.g. Collision_202560C031643, Collision_202560C185158, Collision_202560C197238.
+3. Wrexham: 7, e.g. Collision_202560C053534, Collision_202560C076739, Collision_202560C024981.
+4. Conwy: 6, e.g. Collision_202560C184407, Collision_202560C198289, Collision_202560C185825.
+5. Caerphilly: 5, e.g. Collision_2025610012725, Collision_2025610040425, Collision_2025610000825.
+
+The query was limited to the top five, so other authorities are not shown.

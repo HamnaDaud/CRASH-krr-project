@@ -1,0 +1,5 @@
+I can't supply counts because I don't have the 2025 STATS19 data for these two forces.
+
+Method: filter to fatal or serious collisions (severity 1 or 2), group by police_force (North Wales = 62, Gwent = 60), and split light_conditions into daylight (1) and darkness (4 to 7, with or without street lighting).
+
+As general context, in Great Britain roughly two thirds to three quarters of serious and fatal collisions happen in daylight and the rest in darkness, though fatal collisions are more heavily skewed to darkness. Expect Gwent to have a somewhat higher total than North Wales in a year, but I can't confirm either figure. The specific counts need the dataset.

@@ -1,0 +1,9 @@
+There are 30 high-risk areas (LSOAs with at least three serious or fatal collisions): 22 in North Wales and 8 in Gwent [inferred].
+
+Most collisions:
+- 5 collisions each, all North Wales: W01000403 (e.g. Collision_202560C184751, Collision_202560C116616), W01001971 (Collision_202560C024981), W01000121 (Collision_202560C198289), W01000208 (Collision_202560C115191) [inferred]
+- 4 collisions each: W01001662, W01001980 and W01001524 in Gwent (e.g. Collision_2025610001825, Collision_2025610012325, Collision_2025610032025), and W01000105 and W01000203 in North Wales (e.g. Collision_202560C196768, Collision_202560C031158) [inferred]
+
+The other 21 areas have 3 collisions each, e.g. W01001401 in Gwent (Collision_2025610024925) and W01000103 in North Wales (Collision_202560C013816) [inferred].
+
+Gwent areas: W01001662, W01001980, W01001524, W01001401, W01001581, W01001486, W01001465, W01001632. All other listed areas are in North Wales [inferred].

@@ -1,0 +1,5 @@
+I don't have the STATS19 2025 records for North Wales and Gwent, so I can't give reliable counts, and I won't invent them.
+
+What I can say: the local authorities in these two forces are the six North Wales councils (Isle of Anglesey, Gwynedd, Conwy, Denbighshire, Flintshire, Wrexham) and the five Gwent councils (Blaenau Gwent, Caerphilly, Monmouthshire, Newport, Torfaen). Larger, busier authorities such as Flintshire, Wrexham, Conwy, Gwynedd, Caerphilly and Newport would plausibly feature, since they carry the A55, A494, A483, A470 and A4042. Even so, I can't confirm the ranking or the numbers.
+
+To get the answer, filter the 2025 collision file to these two forces, keep first_road_class = A road (2), road_surface_conditions = wet/damp or frost/ice (2 or 3), accident_severity = fatal or serious (1 or 2), and count by local_authority_ons_district.

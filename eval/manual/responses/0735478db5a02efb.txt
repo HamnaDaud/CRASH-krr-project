@@ -1,0 +1,7 @@
+Children (age 0-15) who were killed or seriously hurt, by casualty class (3 rows in total, 40 children across them) [inferred]:
+
+- Pedestrian: 18 children [inferred]. Examples: Collision_202560C114212, Collision_2025610026525, Collision_2025610031925.
+- Driver or rider: 15 children [inferred]. Examples: Collision_2025610022525, Collision_2025610010525, Collision_202560C136483.
+- Passenger: 7 children [inferred]. Examples: Collision_202560C023465, Collision_202560C198289, Collision_202560C148872 (5 collisions in total, because some collisions involved more than one child, e.g. Collision_202560C198289 and Collision_202560C148872 each have two).
+
+Pedestrians are therefore the largest group, followed by drivers or riders, then passengers. These rows are inferred through the rule that a ChildCasualty is a casualty in age band 1-3 (0-15 years) [inferred].

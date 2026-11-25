@@ -1,0 +1,5 @@
+I can't look up collision 202560C002220. I don't have the STATS19 2025 data, and I'd be inventing details if I listed its vehicles, casualties, severity, conditions, LSOA, local authority or police force.
+
+The reference does tell you something: the 2025 year prefix and the 60 police force code (Gwent is 60 in STATS19; North Wales is 62), so it is likely a Gwent collision, though that is an inference from the code, not a confirmed fact.
+
+To retrieve the details, find collision_index/collision_reference 202560C002220 in the collision file (severity, road class, speed limit, weather and road conditions, LSOA, local authority, police force), then join the vehicle and casualty files on the same reference.

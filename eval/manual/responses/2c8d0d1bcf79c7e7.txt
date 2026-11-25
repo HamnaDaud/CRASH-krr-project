@@ -1,0 +1,5 @@
+In the Gwent police area there were 179 serious or fatal (KSI) collisions [inferred]. Of these, 113 involved a vulnerable road user [inferred].
+
+Example collision IDs: Collision_2025610047425, Collision_2025610004125 and Collision_2025610011725. The evidence column lists all 179 KSI collisions.
+
+Both counts come from inference rules R1 (KSI collision) and R3 (vulnerable road user collision). The context does not say which of the listed collisions are the 113 VRU ones.
